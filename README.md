@@ -2,6 +2,8 @@
 
 An ingestion-focused Python service for collecting publicly listed technology jobs through public ATS endpoints and optional job APIs. Connectors are isolated from the pipeline; raw JSON snapshots are saved before normalization. The API and exports preserve source and application links.
 
+See the [project and deployment guide](docs/PROJECT_GUIDE.md) for a full walkthrough of the architecture, local setup, configuration, operations, and production deployment considerations.
+
 ## Architecture
 
 `FETCH → SAVE RAW → NORMALIZE → VALIDATE → CLASSIFY → EXTRACT SKILLS → DEDUPLICATE → UPSERT → HISTORY`
