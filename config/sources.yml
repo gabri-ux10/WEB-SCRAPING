@@ -1,0 +1,11 @@
+sources:
+  greenhouse: {enabled: true, close_missing: true, rate_limit_per_second: 2, max_pages: 1, max_jobs: 1000}
+  lever: {enabled: true, close_missing: true, rate_limit_per_second: 2, max_pages: 1, max_jobs: 1000}
+  ashby: {enabled: true, close_missing: true, rate_limit_per_second: 2, max_pages: 1, max_jobs: 1000}
+  adzuna: {enabled: false, close_missing: false, countries: [gb], keywords: [software engineer], max_pages: 2, results_per_page: 20, max_jobs: 100}
+  usajobs: {enabled: false, close_missing: false, keywords: [Information Technology, Software Development], results_per_page: 25, max_pages: 2, max_jobs: 100}
+  jooble: {enabled: false, close_missing: false, countries: [Kenya], country_locations: {KE: Kenya, NG: Nigeria, ZA: South Africa, GH: Ghana, UG: Uganda, TZ: Tanzania, RW: Rwanda, ET: Ethiopia, EG: Egypt, MA: Morocco}, keywords: [software engineer], api_domain: jooble.org, max_requests_per_run: 5, max_jobs: 100}
+  jobicy: {enabled: false, close_missing: false, count: 100, max_pages: 2}
+scraping:
+  missing_runs_before_closing: 2
+  duplicate_threshold: 0.92

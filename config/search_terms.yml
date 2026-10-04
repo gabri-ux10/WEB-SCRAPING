@@ -1,0 +1,8 @@
+technology_search_terms:
+  software: [software engineer, software developer, backend engineer, frontend engineer, full stack developer]
+  data: [data engineer, data scientist, data analyst, machine learning engineer, artificial intelligence engineer]
+  security: [cybersecurity, security engineer, security analyst, application security]
+  cloud: [cloud engineer, devops engineer, site reliability engineer, platform engineer]
+  infrastructure: [network engineer, systems administrator, infrastructure engineer]
+  blockchain: [blockchain developer, blockchain engineer, smart contract engineer, web3 developer]
+  computer_science: [computer scientist, research scientist, computer science]

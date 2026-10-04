@@ -1,0 +1,26 @@
+# Replace placeholder ATS identifiers only after verifying the public careers URL.
+# No real companies or board identifiers are asserted in this starter registry.
+- name: Example Kenya Company (placeholder)
+  country: KE
+  region: kenya
+  website: null
+  careers_url: null
+  ats: greenhouse
+  ats_identifier: REPLACE_WITH_VERIFIED_BOARD_TOKEN
+  enabled: false
+- name: Example Nigeria Company (placeholder)
+  country: NG
+  region: africa
+  website: null
+  careers_url: null
+  ats: lever
+  ats_identifier: REPLACE_WITH_VERIFIED_SITE_NAME
+  enabled: false
+- name: Example South Africa Company (placeholder)
+  country: ZA
+  region: africa
+  website: null
+  careers_url: null
+  ats: ashby
+  ats_identifier: REPLACE_WITH_VERIFIED_JOB_BOARD_NAME
+  enabled: false

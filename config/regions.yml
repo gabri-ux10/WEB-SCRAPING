@@ -1,0 +1,5 @@
+regions:
+  global: {countries: []}
+  africa: {countries: [KE, NG, ZA, GH, UG, TZ, RW, ET, EG, MA]}
+  east_africa: {countries: [KE, UG, TZ, RW]}
+  kenya: {countries: [KE]}
