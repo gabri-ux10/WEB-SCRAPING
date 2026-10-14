@@ -20,11 +20,19 @@ See the [project and deployment guide](docs/PROJECT_GUIDE.md) for a full walkthr
 | Adzuna | Search API | disabled | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY` |
 | USAJOBS | official Search API | disabled | `USAJOBS_API_KEY`, `USAJOBS_EMAIL` |
 | Jooble | regional REST API | disabled | regional key; request cap enforced |
-| Jobicy | public remote jobs API | disabled | public endpoint; canonical Jobicy listing URL retained |
+| Jobicy | public remote jobs API | enabled | public endpoint; canonical Jobicy listing URL retained |
+| Remote OK | public JSON feed | enabled | public endpoint; source listing URL retained |
+| Arbeitnow | public job-board API | enabled | paginated public endpoint |
+| Himalayas | public remote-jobs API | enabled | cursor pagination; 20 jobs per request |
+| Remotive | public remote-jobs API | enabled | one request per run; tech categories only |
 
 Greenhouse uses `boards-api.greenhouse.io/v1/boards/{board_token}/jobs?content=true`. Lever reads published postings from `/v0/postings/{site}?mode=json`. Ashby reads its public job-board endpoint and filters unlisted postings. The public Ashby response does not expose a stable posting ID, so the connector uses `jobUrl` as the deterministic identity fallback.
 
 Source documentation: [Greenhouse Job Board API](https://developers.greenhouse.io/job-board.html), [Lever Postings API](https://github.com/lever/postings-api), [Ashby public Job Postings API](https://developers.ashbyhq.com/docs/public-job-posting-api), [Adzuna Search](https://developer.adzuna.com/docs/search), [USAJOBS Search](https://developer.usajobs.gov/api-reference/get-api-search), [Jooble REST API](https://help.jooble.org/en/support/solutions/articles/60001448238-rest-api-documentation), [Jobicy API](https://jobicy.com/jobs-rss-feed).
+
+Remote OK exposes a free public JSON feed at `https://remoteok.com/api`. Arbeitnow provides a paginated public job-board API. Himalayas supports cursor-based pagination with up to 20 jobs per page and recommends avoiding frequent polling. Remotive's public API returns active remote listings; this scraper requests it once per run, filters to technology-related categories, and retains its attribution source and original listing URL.
+
+Source documentation: [Remote OK public feed](https://remoteok.com/faq), [Arbeitnow API](https://documenter.getpostman.com/view/18545278/UVJbJdKh), [Himalayas Remote Jobs API](https://himalayas.app/docs/remote-jobs-api), [Remotive Remote Jobs API](https://github.com/remotive-com/remote-jobs-api).
 
 ## Install and run
 
@@ -63,7 +71,7 @@ Edit `config/companies.yml`. Find its official career page, identify the ATS fro
   enabled: true
 ```
 
-The checked-in entries are disabled placeholders and are not assertions that those companies use the named ATS products. Keep unverified entries disabled until you confirm the identifier.
+The checked-in company entries are configured for their named public ATS boards. Verify identifiers against the company's current careers page before adding or changing entries; do not guess board identifiers.
 
 ## Scraping
 
@@ -77,6 +85,14 @@ python -m app.cli scrape --dry-run --max-pages 1 --max-jobs 50
 ```
 
 Source options live in `config/sources.yml`; country groups are in `config/regions.yml`; aggregator search keywords are in `config/search_terms.yml`; categories and skill terms are editable in `config/tech_categories.yml` and `config/skills.yml`. Raw snapshots use unique names under `data/raw/YYYY-MM-DD/<source>/`; snapshots are never overwritten. Run/error rows retain per-company outcomes.
+
+For a concurrent bulk run across the configured public feeds and company boards, use:
+
+```powershell
+python mass_scrape.py --workers 20 --target 30000
+```
+
+`mass_scrape.py` uses a 10-second HTTP timeout, deduplicates export rows by normalized listing URL (falling back to source and posting ID), and writes the consolidated run to `job_postings.csv` and `job_postings.json` in the repository root. Both files contain `company_name`, `posted_at`, `job_title`, `location`, `skills`, and `url`, plus `source` for attribution. `skills` is a list in JSON and a semicolon-separated value in CSV. The run stops at the target or when configured feeds are exhausted. PostgreSQL is used when available; JSONL is the persistence fallback.
 
 ## API
 
@@ -104,7 +120,7 @@ python -m app.cli export --format json
 python -m app.cli export --format jsonl --output data/exports/review.jsonl
 ```
 
-Default output paths are `data/exports/jobs.csv`, `jobs.json`, and `jobs.jsonl`.
+Default output paths for the database export command are `data/exports/jobs.csv`, `jobs.json`, and `jobs.jsonl`. The standalone `mass_scrape.py` bulk command writes the root-level `job_postings.csv` and `job_postings.json` files described above.
 
 ## Database schema
 
@@ -112,7 +128,7 @@ Tables: `sources`, `companies`, `locations`, `jobs`, `job_history`, `skills`, `j
 
 ## Compliance and scheduling
 
-Only public postings are requested. The project does not bypass authentication, CAPTCHA, access restrictions, or bot protections. Use verified public board identifiers, respect provider terms and quotas, and disable connectors that are not approved for your use. Requests have timeouts and retry transient connection, timeout, 429, and 5xx failures with exponential backoff. Jobicy attribution and canonical source URL are preserved. Salary currencies are not converted.
+Only public postings are requested. The project does not bypass authentication, CAPTCHA, access restrictions, or bot protections. Use verified public board identifiers, respect provider terms and quotas, and disable connectors that are not approved for your use. Requests have timeouts and retry transient connection, timeout, 429, and 5xx failures with exponential backoff. Jobicy, Remotive, and Himalayas source attribution and original listing URLs are preserved. Salary currencies are not converted.
 
 Example six-hour schedule: `0 */6 * * * python -m app.cli scrape`. Configure its working directory, Python environment and log destination.
 
