@@ -6,11 +6,13 @@ class AshbyCollector(BaseCollector):
     source = "ashby"
 
     async def fetch(self, config):
-        data = await self.request_json(
+        data = await self.request_json_or_none(
             f"https://api.ashbyhq.com/posting-api/job-board/{config['ats_identifier']}",
             params={"includeCompensation": "true"},
         )
-        return [j for j in data.get("jobs", []) if j.get("isListed", True)]
+        jobs = [j for j in (data or {}).get("jobs", []) if j.get("isListed", True)]
+        self.exhausted = not jobs
+        return jobs
 
     def normalize(self, raw, config):
         address = (raw.get("address") or {}).get("postalAddress") or {}

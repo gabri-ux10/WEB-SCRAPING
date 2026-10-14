@@ -8,8 +8,7 @@ falls back to JSONL when the database is unavailable, and prints real-time
 progress to the terminal.
 
 Usage:
-    python mass_scrape.py                     # full run, target 30 000 unique jobs
-    python mass_scrape.py --target 5000       # stop after 5 000 unique jobs
+    python mass_scrape.py                     # scrape enabled sources to exhaustion
     python mass_scrape.py --workers 10        # limit to 10 concurrent HTTP requests
     python mass_scrape.py --jsonl-only        # skip PostgreSQL, write JSONL only
 """
@@ -26,7 +25,7 @@ import re
 import sys
 import time
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, date
 from pathlib import Path
 
 import httpx
@@ -57,6 +56,8 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
 )
 log = logging.getLogger("mass_scrape")
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)
 
 
 def _make_collector(collector_cls):
@@ -168,14 +169,15 @@ _EXISTING_ASHBY = {
 # =====================================================================
 
 class Progress:
-    def __init__(self, target: int):
-        self.target = target
+    def __init__(self):
         self.total_fetched = 0
         self.unique_stored = 0
         self.duplicates = 0
         self.errors = 0
         self.sources_done = 0
         self.sources_total = 0
+        self.source_states: dict[str, str] = {}
+        self.retry_queue: list[dict] = []
         self._lock = asyncio.Lock()
         self._start = time.monotonic()
 
@@ -190,14 +192,17 @@ class Progress:
         async with self._lock:
             self.sources_done += 1
 
-    def hit_target(self) -> bool:
-        return self.unique_stored >= self.target
+    async def source_state(self, name: str, state: str, retries: list[dict] | None = None):
+        async with self._lock:
+            self.source_states[name] = state
+            if retries:
+                self.retry_queue.extend(retries)
 
     def line(self) -> str:
         elapsed = time.monotonic() - self._start
         rate = self.unique_stored / elapsed if elapsed > 0 else 0
         return (
-            f"[+] Stored {self.unique_stored:,}/{self.target:,} unique  |  "
+            f"[+] Stored {self.unique_stored:,} unique  |  "
             f"fetched {self.total_fetched:,}  |  dupes {self.duplicates:,}  |  "
             f"errs {self.errors:,}  |  sources {self.sources_done}/{self.sources_total}  |  "
             f"{rate:.0f} jobs/s  |  {elapsed:.0f}s"
@@ -210,23 +215,21 @@ class Progress:
 
 _db_available: bool | None = None
 _jsonl_path: Path | None = None
-EXPORT_FIELDS = ["company_name", "posted_at", "job_title", "location", "skills", "url", "source"]
-_export_rows: dict[str, dict] = {}
+EXPORT_FIELDS = ["company_name", "posted_at", "job_title", "location", "skills", "url"]
+_export_rows: dict[tuple[str, str, str], dict] = {}
+_seen_composite_keys: set[tuple[str, str, str]] = set()
+
+
+def _composite_key(job: NormalizedJob) -> tuple[str, str, str]:
+    posted_at = job.posted_at.isoformat() if hasattr(job.posted_at, "isoformat") else str(job.posted_at or "")
+    return ((job.company_name or "").strip().casefold(), (job.title or "").strip().casefold(), posted_at.strip())
 
 
 def _capture_export_rows(jobs: list[NormalizedJob]) -> None:
-    """Keep one normalized row per canonical source URL (or source ID fallback)."""
-    from urllib.parse import urlsplit, urlunsplit
-
+    """Keep one normalized row per requested company/title/date key."""
     for job in jobs:
         url = job.source_url or job.apply_url or ""
-        if url:
-            parts = urlsplit(url)
-            identity = urlunsplit((parts.scheme.lower(), parts.netloc.lower(), parts.path.rstrip("/"), parts.query, ""))
-        else:
-            identity = f"{job.source}::{job.source_job_id}"
-        if not identity:
-            continue
+        identity = _composite_key(job)
         posted_at = job.posted_at
         _export_rows.setdefault(
             identity,
@@ -237,7 +240,6 @@ def _capture_export_rows(jobs: list[NormalizedJob]) -> None:
                 "location": job.location or "",
                 "skills": list(job.skills or []),
                 "url": url,
-                "source": job.source,
             },
         )
 
@@ -245,8 +247,8 @@ def _capture_export_rows(jobs: list[NormalizedJob]) -> None:
 def _write_exports() -> tuple[Path, Path, int]:
     """Write the consolidated run dataset to JSON and CSV using the same field set."""
     records = list(_export_rows.values())
-    json_path = PROJECT_ROOT / "job_postings.json"
-    csv_path = PROJECT_ROOT / "job_postings.csv"
+    json_path = PROJECT_ROOT / "job_postings_full.json"
+    csv_path = PROJECT_ROOT / "job_postings_full.csv"
     json_tmp = json_path.with_suffix(".json.tmp")
     csv_tmp = csv_path.with_suffix(".csv.tmp")
 
@@ -263,6 +265,36 @@ def _write_exports() -> tuple[Path, Path, int]:
     csv_tmp.replace(csv_path)
     log.info("Exported %s unique postings to %s and %s", len(records), csv_path.name, json_path.name)
     return csv_path, json_path, len(records)
+
+
+def _load_existing_export() -> int:
+    """Resume a partial run by loading its previously exported unique records."""
+    path = PROJECT_ROOT / "job_postings_full.json"
+    if not path.exists():
+        return 0
+    try:
+        rows = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"Could not resume existing export {path.name}") from exc
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        identity = (
+            str(row.get("company_name") or "").strip().casefold(),
+            str(row.get("job_title") or "").strip().casefold(),
+            str(row.get("posted_at") or "").strip(),
+        )
+        if identity[0] and identity[1]:
+            _export_rows.setdefault(identity, {
+                "company_name": row.get("company_name") or "Unknown",
+                "posted_at": row.get("posted_at") or "",
+                "job_title": row.get("job_title") or "",
+                "location": row.get("location") or "",
+                "skills": row.get("skills") if isinstance(row.get("skills"), list) else [],
+                "url": row.get("url") or "",
+            })
+            _seen_composite_keys.add(identity)
+    return len(_export_rows)
 
 
 async def _check_db() -> bool:
@@ -300,15 +332,29 @@ async def store_jobs(
 ) -> None:
     """Persist a batch of NormalizedJob records.  DB-first with JSONL fallback."""
     _capture_export_rows(jobs)
-    if not jobs or progress.hit_target():
+    if not jobs:
+        return
+
+    unique_jobs = []
+    dupes = 0
+    for job in jobs:
+        key = _composite_key(job)
+        if key in _seen_composite_keys:
+            dupes += 1
+            continue
+        _seen_composite_keys.add(key)
+        unique_jobs.append(job)
+    if dupes:
+        await progress.add(dupes=dupes)
+    if not unique_jobs:
         return
 
     use_db = (not jsonl_only) and await _check_db()
 
     if use_db:
-        await _store_db(jobs, company_config, progress)
+        await _store_db(unique_jobs, company_config, progress)
     else:
-        await _store_jsonl(jobs, progress)
+        await _store_jsonl(unique_jobs, progress)
 
 
 async def _store_db(jobs: list[NormalizedJob], company_config: dict, progress: Progress):
@@ -320,9 +366,19 @@ async def _store_db(jobs: list[NormalizedJob], company_config: dict, progress: P
     errs = 0
     async with SessionLocal() as session:
         for job in jobs:
-            if progress.hit_target():
-                break
             try:
+                from sqlalchemy import func, select
+                from app.database.models import Job
+                existing_composite = await session.execute(
+                    select(Job.id).where(
+                        func.lower(Job.company_name) == (job.company_name or "").strip().lower(),
+                        func.lower(Job.title) == (job.title or "").strip().lower(),
+                        Job.posted_at.is_(None) if job.posted_at is None else Job.posted_at == job.posted_at,
+                    ).limit(1)
+                )
+                if existing_composite.scalar_one_or_none() is not None:
+                    dupes += 1
+                    continue
                 async with session.begin_nested():
                     outcome = await upsert_job(session, job, company_config, job.raw_data_path)
                 if outcome == "inserted":
@@ -348,9 +404,7 @@ async def _store_jsonl(jobs: list[NormalizedJob], progress: Progress):
     async with _jsonl_lock:
         with open(path, "a", encoding="utf-8") as f:
             for job in jobs:
-                if progress.hit_target():
-                    break
-                key = f"{job.source}::{job.source_job_id}"
+                key = "\x1f".join(_composite_key(job))
                 if key in _seen_keys:
                     dupes += 1
                     continue
@@ -405,17 +459,12 @@ async def _scrape_board(
     label = f"{source_name}/{company_config['name']}"
     collector = _make_collector(collector_cls)
     collector.request_interval = 0.3  # Faster for concurrent scraping
+    fetch_ok = False
     try:
         async with sem:
-            if progress.hit_target():
-                return
-            cfg = {
-                **source_cfg,
-                **company_config,
-                "max_pages": source_cfg.get("max_pages", 10),
-                "max_jobs": source_cfg.get("max_jobs", 10000),
-            }
+            cfg = {**source_cfg, **company_config}
             raw_jobs = await collector.fetch(cfg)
+            fetch_ok = True
 
         if not raw_jobs:
             log.debug("  %s — 0 jobs", label)
@@ -445,6 +494,8 @@ async def _scrape_board(
         await progress.add(errs=1)
         log.warning("  %-45s  ERROR: %s", label, exc)
     finally:
+        state = "throttled" if collector.throttled else ("failed" if collector.failed or not fetch_ok else "exhausted")
+        await progress.source_state(label, state, collector.retry_queue)
         await collector.close()
         await progress.source_done()
 
@@ -468,17 +519,12 @@ async def _scrape_aggregator(
     }
     collector = _make_collector(collector_cls)
     collector.request_interval = 0.5
+    fetch_ok = False
     try:
         async with sem:
-            if progress.hit_target():
-                return
-            cfg = {
-                **source_cfg,
-                **dummy_company,
-                "max_pages": source_cfg.get("max_pages", 20),
-                "max_jobs": source_cfg.get("max_jobs", 10000),
-            }
+            cfg = {**source_cfg, **dummy_company}
             raw_jobs = await collector.fetch(cfg)
+            fetch_ok = True
 
         if not raw_jobs:
             log.info("  %-45s  0 jobs", name)
@@ -508,6 +554,8 @@ async def _scrape_aggregator(
         await progress.add(errs=1)
         log.warning("  %-45s  ERROR: %s", name, exc)
     finally:
+        state = "throttled" if collector.throttled else ("failed" if collector.failed or not fetch_ok else "exhausted")
+        await progress.source_state(name, state, collector.retry_queue)
         await collector.close()
         await progress.source_done()
 
@@ -520,6 +568,7 @@ def _build_tasks(
     sem: asyncio.Semaphore,
     progress: Progress,
     jsonl_only: bool,
+    himalayas_only: bool = False,
 ) -> list:
     """Return a list of coroutines — one per source/company board."""
     import yaml
@@ -530,15 +579,19 @@ def _build_tasks(
 
     tasks: list = []
 
+    if himalayas_only:
+        source_cfg = settings.get("sources", {}).get("himalayas", {})
+        source_cfg.setdefault("page_size", 20)
+        tasks.append(_scrape_aggregator(HimalayasCollector, source_cfg, sem, progress, jsonl_only))
+        return tasks
+
     # ── 1. Aggregator sources (no per-company config needed) ──
     aggregators = {
-        "remoteok": (RemoteOKCollector, {"max_jobs": 5000}),
-        "arbeitnow": (ArbeitnowCollector, {"max_pages": 10, "max_jobs": 5000}),
-        "jobicy": (JobicyCollector, {"max_pages": 20, "count": 200, "max_jobs": 5000}),
-        # Himalayas permits public cursor pagination (20/page); keep a bounded daily walk.
-        "himalayas": (HimalayasCollector, {"max_pages": 10, "page_size": 20, "max_jobs": 200}),
-        # Remotive advises at most four public API requests per day; fetch its feed once.
-        "remotive": (RemotiveCollector, {"max_jobs": 5000}),
+        "remoteok": (RemoteOKCollector, {}),
+        "arbeitnow": (ArbeitnowCollector, {}),
+        "jobicy": (JobicyCollector, {"count": 200}),
+        "himalayas": (HimalayasCollector, {"page_size": 20}),
+        "remotive": (RemotiveCollector, {}),
     }
     for name, (cls, defaults) in aggregators.items():
         cfg = {**defaults, **settings.get("sources", {}).get(name, {})}
@@ -548,9 +601,7 @@ def _build_tasks(
     if app_settings.adzuna_app_id and app_settings.adzuna_app_key:
         adzuna_cfg = settings.get("sources", {}).get("adzuna", {})
         adzuna_cfg.setdefault("countries", ["gb", "us", "de", "au", "ca", "in", "fr", "nl", "sg", "za"])
-        adzuna_cfg.setdefault("max_pages", 5)
         adzuna_cfg.setdefault("results_per_page", 50)
-        adzuna_cfg.setdefault("max_jobs", 10000)
         search_terms_yml = PROJECT_ROOT / "config" / "search_terms.yml"
         search_terms = {}
         if search_terms_yml.exists():
@@ -562,9 +613,7 @@ def _build_tasks(
 
     if app_settings.usajobs_api_key and app_settings.usajobs_email:
         usajobs_cfg = settings.get("sources", {}).get("usajobs", {})
-        usajobs_cfg.setdefault("max_pages", 10)
-        usajobs_cfg.setdefault("results_per_page", 100)
-        usajobs_cfg.setdefault("max_jobs", 5000)
+        usajobs_cfg.setdefault("results_per_page", 500)
         search_terms_yml = PROJECT_ROOT / "config" / "search_terms.yml"
         search_terms = {}
         if search_terms_yml.exists():
@@ -576,8 +625,7 @@ def _build_tasks(
 
     if app_settings.jooble_api_key:
         jooble_cfg = settings.get("sources", {}).get("jooble", {})
-        jooble_cfg.setdefault("max_requests_per_run", 20)
-        jooble_cfg.setdefault("max_jobs", 5000)
+        jooble_cfg.setdefault("results_per_page", 20)
         search_terms_yml = PROJECT_ROOT / "config" / "search_terms.yml"
         search_terms = {}
         if search_terms_yml.exists():
@@ -647,8 +695,8 @@ def _build_tasks(
 # =====================================================================
 
 async def _progress_printer(progress: Progress, interval: float = 3.0):
-    """Print live progress every `interval` seconds until target is hit."""
-    while not progress.hit_target() and progress.sources_done < progress.sources_total:
+    """Print live progress every `interval` seconds until all source tasks finish."""
+    while progress.sources_done < progress.sources_total:
         print(f"\r{progress.line()}", end="", flush=True)
         await asyncio.sleep(interval)
     print(f"\r{progress.line()}")  # Final line
@@ -658,15 +706,70 @@ async def _progress_printer(progress: Progress, interval: float = 3.0):
 # Main entry point
 # =====================================================================
 
-async def run(target: int = 30_000, workers: int = 20, jsonl_only: bool = False):
-    sem = asyncio.Semaphore(workers)
-    progress = Progress(target)
+def _parse_timestamp(value):
+    if isinstance(value, datetime):
+        parsed = value
+    elif isinstance(value, date):
+        parsed = datetime(value.year, value.month, value.day, tzinfo=UTC)
+    elif isinstance(value, (int, float)):
+        try:
+            stamp = value / 1000 if abs(value) > 100_000_000_000 else value
+            parsed = datetime.fromtimestamp(stamp, UTC)
+        except (OverflowError, OSError, ValueError):
+            return None
+    elif isinstance(value, str) and value.strip():
+        raw = value.strip()
+        try:
+            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError:
+            try:
+                parsed = datetime.combine(date.fromisoformat(raw[:10]), datetime.min.time(), tzinfo=UTC)
+            except ValueError:
+                return None
+    else:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
-    tasks = _build_tasks(sem, progress, jsonl_only)
-    progress.sources_total = len(tasks)
+
+def _print_coverage(progress: Progress):
+    dates = [dt for row in _export_rows.values() if (dt := _parse_timestamp(row.get("posted_at"))) is not None]
+    if dates:
+        oldest, newest = min(dates), max(dates)
+        days = (newest - oldest).total_seconds() / 86400
+        window = f"{days:.1f} days" if days % 1 else f"{int(days)} days"
+        log.info("Oldest posting date: %s", oldest.isoformat())
+        log.info("Newest posting date: %s", newest.isoformat())
+        log.info("Total timeline window: Covering %s of job postings (%d dated records)", window, len(dates))
+    else:
+        log.info("Timeline dates: no valid posted_at timestamps found")
+    log.info("Total unique postings: %s", len(_export_rows))
+    exhausted = sum(1 for state in progress.source_states.values() if state == "exhausted")
+    throttled = sum(1 for state in progress.source_states.values() if state == "throttled")
+    failed = sum(1 for state in progress.source_states.values() if state == "failed")
+    log.info("Sources exhausted: %d | throttled: %d | failed: %d", exhausted, throttled, failed)
+    retry_path = PROJECT_ROOT / "retry_queue.json"
+    retry_path.write_text(json.dumps(progress.retry_queue, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if progress.retry_queue:
+        log.info("Retry queue saved: %s (%d exhausted endpoint retries)", retry_path.name, len(progress.retry_queue))
+
+
+async def run(workers: int = 20, jsonl_only: bool = False, *, himalayas_only: bool = False, resume_existing: bool = False):
+    sem = asyncio.Semaphore(workers)
+    progress = Progress()
+
+    if resume_existing:
+        resumed = _load_existing_export()
+        progress.sources_done = 280
+        progress.source_states.update({f"previously-exhausted-{i + 1}": "exhausted" for i in range(280)})
+        log.info("Resuming with %s previously exported postings", resumed)
+
+    tasks = _build_tasks(sem, progress, jsonl_only, himalayas_only=himalayas_only)
+    progress.sources_total = len(tasks) + progress.sources_done
 
     log.info("=" * 72)
-    log.info("MASS SCRAPE — target=%d unique jobs  |  %d workers  |  %d sources", target, workers, len(tasks))
+    log.info("MASS SCRAPE — exhaust all enabled pagination  |  %d workers  |  %d sources", workers, len(tasks))
     log.info("=" * 72)
 
     # Start the progress printer
@@ -681,6 +784,7 @@ async def run(target: int = 30_000, workers: int = 20, jsonl_only: bool = False)
     export_error = None
     try:
         _write_exports()
+        _print_coverage(progress)
     except Exception as exc:
         export_error = exc
         log.exception("Could not write consolidated CSV/JSON exports")
@@ -699,7 +803,7 @@ async def run(target: int = 30_000, workers: int = 20, jsonl_only: bool = False)
     )
     log.info("Elapsed: %.1f seconds", time.monotonic() - progress._start)
     if export_error:
-        raise RuntimeError("Failed to write job_postings.csv/job_postings.json") from export_error
+        raise RuntimeError("Failed to write full job postings exports") from export_error
     if _jsonl_path:
         log.info("JSONL output: %s", _jsonl_path)
     log.info("=" * 72)
@@ -707,12 +811,14 @@ async def run(target: int = 30_000, workers: int = 20, jsonl_only: bool = False)
 
 def main():
     parser = argparse.ArgumentParser(description="Mass concurrent tech-job scraper")
-    parser.add_argument("--target", type=int, default=30_000, help="Stop after this many unique jobs (default: 30000)")
     parser.add_argument("--workers", type=int, default=20, help="Max concurrent HTTP requests (default: 20)")
     parser.add_argument("--jsonl-only", action="store_true", help="Skip PostgreSQL, write to JSONL file only")
+    parser.add_argument("--himalayas-only", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--resume-existing", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
 
-    asyncio.run(run(target=args.target, workers=args.workers, jsonl_only=args.jsonl_only))
+    asyncio.run(run(workers=args.workers, jsonl_only=args.jsonl_only,
+                    himalayas_only=args.himalayas_only, resume_existing=args.resume_existing))
 
 
 if __name__ == "__main__":

@@ -7,10 +7,12 @@ class GreenhouseCollector(BaseCollector):
 
     async def fetch(self, config):
         board = config["ats_identifier"]
-        data = await self.request_json(
+        data = await self.request_json_or_none(
             f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs", params={"content": "true"}
         )
-        return data.get("jobs", [])
+        jobs = data.get("jobs", []) if data else []
+        self.exhausted = not jobs
+        return jobs
 
     def normalize(self, raw, config):
         loc = (raw.get("location") or {}).get("name")

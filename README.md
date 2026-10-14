@@ -2,7 +2,7 @@
 
 An ingestion-focused Python service for collecting publicly listed technology jobs through public ATS endpoints and optional job APIs. Connectors are isolated from the pipeline; raw JSON snapshots are saved before normalization. The API and exports preserve source and application links.
 
-See the [project and deployment guide](docs/PROJECT_GUIDE.md) for a full walkthrough of the architecture, local setup, configuration, operations, and production deployment considerations.
+See the [project and deployment guide](docs/PROJECT_GUIDE.md) for setup and deployment, and the [system file summary](docs/SYSTEM_SUMMARY.md) for a file-by-file map of the repository and a description of how data moves through it.
 
 ## Architecture
 
@@ -19,7 +19,7 @@ See the [project and deployment guide](docs/PROJECT_GUIDE.md) for a full walkthr
 | Ashby | public Job Postings API | enabled | per-company public job-board name |
 | Adzuna | Search API | disabled | `ADZUNA_APP_ID`, `ADZUNA_APP_KEY` |
 | USAJOBS | official Search API | disabled | `USAJOBS_API_KEY`, `USAJOBS_EMAIL` |
-| Jooble | regional REST API | disabled | regional key; request cap enforced |
+| Jooble | regional REST API | disabled | regional key; finite lifetime request allowance |
 | Jobicy | public remote jobs API | enabled | public endpoint; canonical Jobicy listing URL retained |
 | Remote OK | public JSON feed | enabled | public endpoint; source listing URL retained |
 | Arbeitnow | public job-board API | enabled | paginated public endpoint |
@@ -89,10 +89,12 @@ Source options live in `config/sources.yml`; country groups are in `config/regio
 For a concurrent bulk run across the configured public feeds and company boards, use:
 
 ```powershell
-python mass_scrape.py --workers 20 --target 30000
+python mass_scrape.py --workers 20
 ```
 
-`mass_scrape.py` uses a 10-second HTTP timeout, deduplicates export rows by normalized listing URL (falling back to source and posting ID), and writes the consolidated run to `job_postings.csv` and `job_postings.json` in the repository root. Both files contain `company_name`, `posted_at`, `job_title`, `location`, `skills`, and `url`, plus `source` for attribution. `skills` is a list in JSON and a semicolon-separated value in CSV. The run stops at the target or when configured feeds are exhausted. PostgreSQL is used when available; JSONL is the persistence fallback.
+`mass_scrape.py` uses asynchronous concurrency, a 10-second HTTP timeout, and pagination until feeds report exhaustion or are marked failed. It writes `job_postings_full.csv` and `job_postings_full.json` in the repository root. Both files contain `company_name`, `posted_at`, `job_title`, `location`, `skills`, and `url`; `skills` is a list in JSON and semicolon-separated in CSV. Records are deduplicated by `(company_name, job_title, posted_at)`. The completion report includes date coverage and source outcomes; endpoints that still fail after three retries are recorded in `retry_queue.json`. PostgreSQL is used when available, with JSONL as a persistence fallback.
+
+The verified snapshot generated on 2026-10-14 contains 26,148 unique export records. All 26,148 composite keys were verified in PostgreSQL (31,018 total job rows at verification time). In this run, 280 source tasks had completed in the earlier pass; the resumed Himalayas feed failed after three connection attempts and is recorded in `retry_queue.json`, so that feed was not fully exhausted.
 
 ## API
 
@@ -120,7 +122,7 @@ python -m app.cli export --format json
 python -m app.cli export --format jsonl --output data/exports/review.jsonl
 ```
 
-Default output paths for the database export command are `data/exports/jobs.csv`, `jobs.json`, and `jobs.jsonl`. The standalone `mass_scrape.py` bulk command writes the root-level `job_postings.csv` and `job_postings.json` files described above.
+Default output paths for the database export command are `data/exports/jobs.csv`, `jobs.json`, and `jobs.jsonl`. The standalone `mass_scrape.py` bulk command writes the root-level `job_postings_full.csv` and `job_postings_full.json` files described above, plus `retry_queue.json` when endpoints fail after retries.
 
 ## Database schema
 

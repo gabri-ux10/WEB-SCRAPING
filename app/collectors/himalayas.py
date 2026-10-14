@@ -13,22 +13,36 @@ class HimalayasCollector(BaseCollector):
         jobs = []
         cursor = None
         seen_cursors = set()
-        max_pages = max(1, min(int(config.get("max_pages", 10)), 50))
         limit = max(1, min(int(config.get("page_size", 20)), 20))
-
-        for _ in range(max_pages):
+        seen_ids = set()
+        while True:
             params = {"limit": limit}
             if cursor:
                 params["cursor"] = cursor
-            data = await self.request_json("https://himalayas.app/jobs/api", params=params)
-            jobs.extend(data.get("jobs", []))
+            data = await self.request_json_or_none("https://himalayas.app/jobs/api", params=params)
+            if data is None:
+                break
+            rows = data.get("jobs", [])
+            if not rows:
+                self.exhausted = True
+                break
+            before = len(seen_ids)
+            for job in rows:
+                identity = str(job.get("guid") or job.get("applicationLink") or "")
+                if identity and identity not in seen_ids:
+                    seen_ids.add(identity)
+                    jobs.append(job)
+            if len(seen_ids) == before:
+                self.exhausted = True
+                break
             next_cursor = data.get("nextCursor")
             if not next_cursor or next_cursor in seen_cursors:
+                self.exhausted = True
                 break
             seen_cursors.add(next_cursor)
             cursor = next_cursor
 
-        return jobs[: int(config.get("max_jobs", 1000))]
+        return jobs
 
     def normalize(self, raw, config):
         raw_locations = raw.get("locationRestrictions") or []

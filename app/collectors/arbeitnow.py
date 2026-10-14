@@ -8,15 +8,33 @@ class ArbeitnowCollector(BaseCollector):
 
     async def fetch(self, config):
         out = []
-        max_pages = min(int(config.get("max_pages", 3)), 10)
-        for page in range(1, max_pages + 1):
-            data = await self.request_json(
-                "https://www.arbeitnow.com/api/job-board-api", params={"page": page}
+        page = 1
+        next_url = None
+        seen_pages = set()
+        while True:
+            data = await self.request_json_or_none(
+                next_url or "https://www.arbeitnow.com/api/job-board-api",
+                params=None if next_url else {"page": page},
             )
-            items = data.get("data", [])
-            out.extend(items)
-            if not data.get("links", {}).get("next"):
+            if data is None:
                 break
+            items = data.get("data", [])
+            if not items:
+                self.exhausted = True
+                break
+            out.extend(items)
+            next_value = data.get("links", {}).get("next")
+            if not next_value:
+                self.exhausted = True
+                break
+            if isinstance(next_value, str):
+                if next_value in seen_pages:
+                    self.exhausted = True
+                    break
+                seen_pages.add(next_value)
+                next_url = next_value
+            else:
+                page += 1
         return out
 
     def normalize(self, raw, config):

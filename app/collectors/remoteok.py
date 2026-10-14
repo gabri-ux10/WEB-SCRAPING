@@ -11,8 +11,8 @@ class RemoteOKCollector(BaseCollector):
             return []
         # First entry is legal disclaimer/metadata
         jobs = [item for item in data if isinstance(item, dict) and item.get("id")]
-        max_jobs = int(config.get("max_jobs", 100))
-        return jobs[:max_jobs]
+        self.exhausted = True
+        return jobs
 
     def normalize(self, raw, config):
         url = raw.get("apply_url") or raw.get("url")

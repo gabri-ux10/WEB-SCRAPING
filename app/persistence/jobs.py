@@ -39,7 +39,7 @@ async def upsert_job(session, job, company_config, raw_path, duplicate_threshold
                 Company.ats_identifier == company_config.get("ats_identifier"),
             )
         )
-    ).scalar_one_or_none()
+    ).scalars().first()
     if not company:
         company = Company(
             name=company_config["name"],
@@ -67,7 +67,7 @@ async def upsert_job(session, job, company_config, raw_path, duplicate_threshold
                 *[getattr(Location, key) == value for key, value in locdata.items()]
             )
         )
-    ).scalar_one_or_none()
+    ).scalars().first()
     if not loc:
         loc = Location(**locdata)
         session.add(loc)

@@ -8,18 +8,27 @@ class JobicyCollector(BaseCollector):
     async def fetch(self, config):
         out = []
         cursor = None
-        for _ in range(min(int(config.get("max_pages", 2)), 20)):
+        seen_cursors = set()
+        while True:
             params = {"count": min(int(config.get("count", 100)), 200)}
             for k in ("geo", "industry", "tag"):
                 if config.get(k):
                     params[k] = config[k]
             if cursor:
                 params["cursor"] = cursor
-            data = await self.request_json("https://jobicy.com/api/v2/remote-jobs", params=params)
-            out.extend(data.get("jobs", []))
-            cursor = data.get("nextCursor")
-            if not cursor:
+            data = await self.request_json_or_none("https://jobicy.com/api/v2/remote-jobs", params=params)
+            if data is None:
                 break
+            jobs = data.get("jobs", [])
+            if not jobs:
+                self.exhausted = True
+                break
+            out.extend(jobs)
+            cursor = data.get("nextCursor")
+            if not cursor or cursor in seen_cursors:
+                self.exhausted = True
+                break
+            seen_cursors.add(cursor)
         return out
 
     def normalize(self, raw, config):

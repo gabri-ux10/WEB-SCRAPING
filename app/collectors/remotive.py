@@ -31,7 +31,8 @@ class RemotiveCollector(BaseCollector):
                 for category in self.TECH_CATEGORIES
             )
         ]
-        return jobs[: int(config.get("max_jobs", 5000))]
+        self.exhausted = True
+        return jobs
 
     def normalize(self, raw, config):
         url = raw.get("url")

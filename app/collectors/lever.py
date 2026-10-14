@@ -12,18 +12,31 @@ class LeverCollector(BaseCollector):
         host = "api.eu.lever.co" if config.get("region_code") == "eu" else "api.lever.co"
         out = []
         limit = min(int(config.get("page_size", 100)), 100)
-        pages = min(int(config.get("max_pages", 1)), 20)
-        for page in range(pages):
-            rows = await self.request_json(
+        seen = set()
+        skip = 0
+        while True:
+            rows = await self.request_json_or_none(
                 f"https://{host}/v0/postings/{config['ats_identifier']}",
-                params={"mode": "json", "skip": page * limit, "limit": limit},
+                params={"mode": "json", "skip": skip, "limit": limit},
             )
+            if rows is None:
+                break
             if not isinstance(rows, list):
                 raise ValueError("Lever response must be a JSON array")
-            out.extend(rows)
-            if len(rows) < limit:
+            if not rows:
+                self.exhausted = True
                 break
-        return out[: int(config.get("max_jobs", 1000))]
+            before = len(seen)
+            for row in rows:
+                identity = str(row.get("id") or row.get("hostedUrl") or "")
+                if identity and identity not in seen:
+                    seen.add(identity)
+                    out.append(row)
+            if len(seen) == before or len(rows) < limit:
+                self.exhausted = True
+                break
+            skip += len(rows)
+        return out
 
     def normalize(self, raw, config):
         categories = raw.get("categories") or {}

@@ -12,11 +12,12 @@ class AdzunaCollector(BaseCollector):
         if not settings.adzuna_app_id or not settings.adzuna_app_key:
             return []
         out = []
-        max_pages = min(int(config.get("max_pages", 2)), 20)
         for country in config.get("countries", []):
             for query in config.get("keywords", []):
-                for page in range(1, max_pages + 1):
-                    data = await self.request_json(
+                page = 1
+                seen = set()
+                while True:
+                    data = await self.request_json_or_none(
                         f"https://api.adzuna.com/v1/api/jobs/{country.lower()}/search/{page}",
                         params={
                             "app_id": settings.adzuna_app_id,
@@ -26,9 +27,22 @@ class AdzunaCollector(BaseCollector):
                             "content-type": "application/json",
                         },
                     )
-                    out += [{**j, "_country": country} for j in data.get("results", [])]
-                    if not data.get("results"):
+                    if data is None:
                         break
+                    rows = data.get("results", [])
+                    if not rows:
+                        self.exhausted = True
+                        break
+                    before = len(seen)
+                    for row in rows:
+                        identity = str(row.get("id") or row.get("redirect_url") or "")
+                        if identity and identity not in seen:
+                            seen.add(identity)
+                            out.append({**row, "_country": country})
+                    if len(seen) == before:
+                        self.exhausted = True
+                        break
+                    page += 1
         return out
 
     def normalize(self, raw, config):
@@ -59,10 +73,10 @@ class USAJobsCollector(BaseCollector):
         if not settings.usajobs_api_key or not settings.usajobs_email:
             return []
         out = []
-        max_pages = min(int(config.get("max_pages", 1)), 20)
         for keyword in config.get("keywords", ["Information Technology"]):
-            for page in range(1, max_pages + 1):
-                data = await self.request_json(
+            page = 1
+            while True:
+                data = await self.request_json_or_none(
                     "https://data.usajobs.gov/api/Search",
                     params={
                         "Keyword": keyword,
@@ -74,10 +88,23 @@ class USAJobsCollector(BaseCollector):
                         "User-Agent": settings.usajobs_email,
                     },
                 )
+                if data is None:
+                    break
                 rows = data.get("SearchResult", {}).get("SearchResultItems", [])
                 out += rows
                 if not rows:
+                    self.exhausted = True
                     break
+                count = data.get("SearchResult", {}).get("SearchResultCountAll")
+                pages = data.get("SearchResult", {}).get("UserArea", {}).get("NumberOfPages")
+                if pages and page >= int(pages):
+                    self.exhausted = True
+                    break
+                if count and page * int(config.get("results_per_page", 25)) >= min(int(count), 10000):
+                    # USAJOBS documents a 10,000-result search ceiling.
+                    self.exhausted = True
+                    break
+                page += 1
         return out
 
     def normalize(self, raw, config):
@@ -108,8 +135,6 @@ class JoobleCollector(BaseCollector):
 
     async def fetch(self, config):
         out = []
-        budget = max(0, min(int(config.get("max_requests_per_run", 5)), 5))
-        requests = 0
         markets = config.get("markets") or [
             {
                 "location": country,
@@ -125,17 +150,35 @@ class JoobleCollector(BaseCollector):
             if not country or not api_key:
                 continue
             for keyword in config.get("keywords", []):
-                if requests >= budget:
-                    break
-                requests += 1
-                payload = await self.request_json_post(
-                    f"https://{domain}/api/{api_key}",
-                    json_body={"keywords": keyword, "location": country, "page": "1"},
-                )
-                out += payload.get("jobs", [])
-            if requests >= budget:
-                break
-        return out[: int(config.get("max_jobs", 100))]
+                page = 1
+                seen = set()
+                while True:
+                    payload = await self.request_json_post_or_none(
+                        f"https://{domain}/api/{api_key}",
+                        json_body={"keywords": keyword, "location": country, "page": str(page)},
+                    )
+                    if payload is None:
+                        break
+                    rows = payload.get("jobs", [])
+                    if not rows:
+                        self.exhausted = True
+                        break
+                    before = len(seen)
+                    for row in rows:
+                        identity = str(row.get("id") or row.get("link") or "")
+                        if identity and identity not in seen:
+                            seen.add(identity)
+                            out.append(row)
+                    if len(seen) == before:
+                        self.exhausted = True
+                        break
+                    total = payload.get("totalCount")
+                    page_size = int(config.get("results_per_page", 20))
+                    if total is not None and page * page_size >= int(total):
+                        self.exhausted = True
+                        break
+                    page += 1
+        return out
 
     def normalize(self, raw, config):
         return NormalizedJob(
