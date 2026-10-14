@@ -15,7 +15,7 @@ def parser():
     s = sub.add_parser("scrape")
     s.add_argument(
         "--source",
-        choices=["greenhouse", "lever", "ashby", "adzuna", "usajobs", "jobicy", "jooble"],
+        choices=["greenhouse", "lever", "ashby", "adzuna", "usajobs", "jobicy", "jooble", "remoteok", "arbeitnow"],
     )
     s.add_argument("--country")
     s.add_argument("--region")

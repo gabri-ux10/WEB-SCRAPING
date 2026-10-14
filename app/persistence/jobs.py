@@ -173,24 +173,30 @@ async def upsert_job(session, job, company_config, raw_path, duplicate_threshold
                 await session.flush()
             skill_records.append(skill)
         record.skills = skill_records
-        others = (
-            (
-                await session.execute(
-                    select(Job).where(
-                        Job.id != record.id,
-                        Job.company_name.ilike(job.company_name),
-                        Job.status == "open",
+        if duplicate_threshold < 1.0:
+            others = (
+                (
+                    await session.execute(
+                        select(Job).where(
+                            Job.id != record.id,
+                            Job.company_name.ilike(job.company_name),
+                            Job.title.ilike(f"{job.title[:15]}%"),
+                            Job.status == "open",
+                        )
                     )
                 )
+                .scalars()
+                .all()
             )
-            .scalars()
-            .all()
-        )
-        for other in others:
-            score = similarity(job, other)
-            if score >= duplicate_threshold:
-                a, b = sorted((record.id, other.id))
-                session.add(DuplicateCandidate(job_a_id=a, job_b_id=b, score=score))
+            for other in others:
+                len_a = len(job.title)
+                len_b = len(other.title or "")
+                if len_a > 0 and len_b > 0 and abs(len_a - len_b) / max(len_a, len_b) > 0.4:
+                    continue
+                score = similarity(job, other)
+                if score >= duplicate_threshold:
+                    a, b = sorted((record.id, other.id))
+                    session.add(DuplicateCandidate(job_a_id=a, job_b_id=b, score=score))
     return outcome
 
 

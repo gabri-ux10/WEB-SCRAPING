@@ -12,10 +12,12 @@ from sqlalchemy import select
 
 from app.classification.classifier import enrich_classification
 from app.collectors.aggregators import AdzunaCollector, JoobleCollector, USAJobsCollector
+from app.collectors.arbeitnow import ArbeitnowCollector
 from app.collectors.ashby import AshbyCollector
 from app.collectors.greenhouse import GreenhouseCollector
 from app.collectors.jobicy import JobicyCollector
 from app.collectors.lever import LeverCollector
+from app.collectors.remoteok import RemoteOKCollector
 from app.config import ROOT
 from app.config import settings as app_settings
 from app.database.models import Company, Job, ScrapeError, ScrapeRun, Source
@@ -32,6 +34,8 @@ COLLECTORS = {
     "usajobs": USAJobsCollector,
     "jooble": JoobleCollector,
     "jobicy": JobicyCollector,
+    "remoteok": RemoteOKCollector,
+    "arbeitnow": ArbeitnowCollector,
 }
 
 
@@ -125,7 +129,7 @@ async def scrape(
                 log.info("source=%s disabled: credentials not configured", name)
                 continue
             targets = [c for c in companies if c.get("ats") == name]
-            if name in {"adzuna", "usajobs", "jooble", "jobicy"} and not targets:
+            if name in {"adzuna", "usajobs", "jooble", "jobicy", "remoteok", "arbeitnow"} and not targets:
                 targets = [
                     {
                         "name": name.title(),
@@ -214,6 +218,8 @@ async def scrape(
                             elif outcome == "rejected":
                                 summary["rejected"] += 1
                                 company_rejections += 1
+                            if (idx + 1) % 25 == 0:
+                                await session.commit()
                         except Exception as exc:
                             record_errors += 1
                             summary["errors"].append(f"{name}/{config['name']}: record: {exc}")
