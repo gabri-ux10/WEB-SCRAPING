@@ -15,7 +15,7 @@ Read-only comparison of the legacy DOCX directory, legacy posting company names,
 
 ## Why 5,810 leads versus 5,875 directory rows
 
-The 5,810 v2 company rows were derived from distinct normalized names in the legacy jobs table, not copied one-for-one from the company directory. The directory is a report with 5,875 rows, including repeated display strings and variants collapsed by accent/punctuation/legal-suffix normalization. The jobs table has a different observed company-name set. Blank/punctuation-only names normalize to an empty key and are excluded; placeholder-looking names are retained pending review. No legacy job postings were copied.
+The 5,875 directory rows contain **2 repeated display-name rows** (5,873 exact distinct names). Normalization then collapses **63 excess display variants** across 62 collision clusters, yielding 5,810 keys. The legacy jobs table independently yields the same 5,810 keys; all directory keys overlap the legacy keys, with **0 directory-only and 0 legacy-only keys**. The miner drops no names for being junk: the conservative placeholder screen flags 0 names, and no company name has an empty normalized key. No legacy job postings were copied.
 
 ## ATS board lead counts by system
 
