@@ -20,7 +20,7 @@
 
 ## Open gates
 
-1. **Terms decisions:** Adzuna, Jooble, Careerjet, Reed, Remotive, France Travail, and EURES remain blocked as specified in the authoritative terms ledger. The initializer now takes current eligibility from `source_terms_decisions_v2.csv`, not the historical registry status, and leaves every source disabled.
+1. **Terms decisions:** Adzuna, Jooble, Careerjet, Reed, Remotive, France Travail, and EURES remain explicitly blocked in the authoritative terms ledger. The initializer takes current eligibility from `source_terms_decisions_v2.csv`, not historical registry status, and leaves every source disabled.
 2. **Translation:** The pilot will use local Helsinki-NLP OPUS-MT models; model installation and spot checks are part of Stage 2. Classification will run rules-only with no LLM fallback.
 
 ## Requested decision

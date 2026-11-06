@@ -18,7 +18,7 @@ Checked 6 November 2026 against official documentation and source terms where av
 | Gem | [Job Board API](https://help.gem.com/databases/gem-help-center/the-job-board-api) | Official endpoint returns currently open job posts and is intended for custom job boards. Eligible under the user’s public-API rule. |
 | Polymer | [Public API](https://developer.polymer.co/) | Official docs distinguish unauthenticated public job listings from authenticated hiring data; public API is rate-limited and intended for job-board integrations. Use public endpoints only. |
 | Arbeitnow | [Job Board API](https://www.arbeitnow.com/blog/job-board-api) | Official page documents a free, no-key job-search API covering jobs aggregated from multiple ATS platforms. Eligible as a public API; expect duplicates and preserve original listing URLs. |
-| Remotive | [Public API and terms](https://remotive.com/remote-jobs/api), [API help](https://support.remotive.com/en/article/list-remote-jobs-public-api-105pww2/) | API access allows further sharing with source attribution and prohibits submission to third-party job sites. Long-term research-dataset storage is not expressly addressed; set `terms_decision=needs_owner_decision` before persistence. Respect the registry’s request cap. |
+| Remotive | [Public API and terms](https://remotive.com/remote-jobs/api), [API help](https://support.remotive.com/en/article/list-remote-jobs-public-api-105pww2/) | API access allows attributed sharing and prohibits third-party resubmission. Research retention is not expressly addressed; explicitly blocked from this project pending owner decision. Respect the registry’s request cap. |
 
 ## Storage blocked pending permission or clearer terms
 
@@ -27,7 +27,7 @@ Checked 6 November 2026 against official documentation and source terms where av
 | Adzuna | [API terms](https://developer.adzuna.com/docs/terms_of_service) | Academic research is listed as a permitted use, but organizational/academic use is limited to a 14-day validation trial; ongoing research in original or aggregated form requires written consent. Do not persist results without written permission covering this longitudinal study. |
 | Jooble | [REST API documentation](https://help.jooble.org/en/support/solutions/articles/60001448238), [API portal](https://jooble.org/api/about), [terms](https://jooble.org/info/terms) | API is described for displaying search results on a website; the public-site terms prohibit automated crawlers and copying. No clear academic bulk-storage grant was found. Do not persist without written permission/API terms confirming it. Each country requires its own key; the current official help page states a 500-request lifetime free quota. |
 | Careerjet | [Partner API](https://www.careerjet.com/partners/api/), [partner program](https://www.careerjet.com/partners/) | API is for publisher websites displaying Careerjet results; requests require user IP, user-agent and referrer. No academic dataset-retention grant was found. Do not persist without written permission. |
-| Reed | [Registry-listed Jobseeker API](https://www.reed.co.uk/developers/jobseeker) | Current official search did not verify a usable public job-search API contract and terms for research storage. Treat as unavailable until Reed confirms the endpoint, key eligibility, and storage rights. |
+| Reed | [Registry-listed Jobseeker API](https://www.reed.co.uk/developers/jobseeker) | Current official search did not verify a usable public job-search API contract and terms for research storage. Explicitly blocked from this project. |
 
 ## RECHECK sources with Europe relevance
 
@@ -39,8 +39,8 @@ Checked 6 November 2026 against official documentation and source terms where av
 ## Gate status
 
 - Official public endpoint/feed documentation confirmed for Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, Personio, Teamtailor RSS, Pinpoint, Gem, Polymer and Arbeitnow.
-- Public API documentation was confirmed for Remotive, but storage beyond attributed display remains unresolved.
-- Adzuna, Jooble, Careerjet and Reed remain blocked from database writes pending the decisions above.
+- Remotive is explicitly blocked because academic research retention remains unresolved.
+- Adzuna, Jooble, Careerjet, Reed, Remotive, France Travail and EURES remain blocked as directed by the project owner.
 - France Travail and EURES are not available to this project under their current access/terms.
 - No endpoint live tests were run in Stage 1 because the stage prohibits job scraping. The registry’s October 2026 `VERIFIED` status remains historical evidence, not a new live test.
 - Proposed Stage 2 pilot remains Greenhouse + Teamtailor RSS + Arbeitnow, capped at about 1,000 Europe postings, subject to the Stage 2 approval gate.
