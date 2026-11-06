@@ -1,0 +1,249 @@
+country_or_area,m49_code,iso_alpha2,iso_alpha3,region_code,region_name,subregion_code,subregion_name,intermediate_region_code,intermediate_region_name,checked_on,source_url
+Algeria,012,DZ,DZA,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Egypt,818,EG,EGY,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Libya,434,LY,LBY,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Morocco,504,MA,MAR,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sudan,729,SD,SDN,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Tunisia,788,TN,TUN,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Western Sahara,732,EH,ESH,002,Africa,015,Northern Africa,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+British Indian Ocean Territory,086,IO,IOT,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Burundi,108,BI,BDI,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Comoros,174,KM,COM,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Djibouti,262,DJ,DJI,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Eritrea,232,ER,ERI,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Ethiopia,231,ET,ETH,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+French Southern Territories,260,TF,ATF,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Kenya,404,KE,KEN,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Madagascar,450,MG,MDG,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Malawi,454,MW,MWI,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mauritius,480,MU,MUS,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mayotte,175,YT,MYT,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mozambique,508,MZ,MOZ,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Réunion,638,RE,REU,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Rwanda,646,RW,RWA,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Seychelles,690,SC,SYC,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Somalia,706,SO,SOM,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+South Sudan,728,SS,SSD,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Uganda,800,UG,UGA,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United Republic of Tanzania,834,TZ,TZA,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Zambia,894,ZM,ZMB,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Zimbabwe,716,ZW,ZWE,002,Africa,202,Sub-Saharan Africa,014,Eastern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Angola,024,AO,AGO,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cameroon,120,CM,CMR,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Central African Republic,140,CF,CAF,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Chad,148,TD,TCD,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Congo,178,CG,COG,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Democratic Republic of the Congo,180,CD,COD,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Equatorial Guinea,226,GQ,GNQ,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Gabon,266,GA,GAB,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sao Tome and Principe,678,ST,STP,002,Africa,202,Sub-Saharan Africa,017,Middle Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Botswana,072,BW,BWA,002,Africa,202,Sub-Saharan Africa,018,Southern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Eswatini,748,SZ,SWZ,002,Africa,202,Sub-Saharan Africa,018,Southern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Lesotho,426,LS,LSO,002,Africa,202,Sub-Saharan Africa,018,Southern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Namibia,516,NA,NAM,002,Africa,202,Sub-Saharan Africa,018,Southern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+South Africa,710,ZA,ZAF,002,Africa,202,Sub-Saharan Africa,018,Southern Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Benin,204,BJ,BEN,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Burkina Faso,854,BF,BFA,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cabo Verde,132,CV,CPV,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Côte d’Ivoire,384,CI,CIV,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Gambia,270,GM,GMB,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Ghana,288,GH,GHA,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guinea,324,GN,GIN,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guinea-Bissau,624,GW,GNB,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Liberia,430,LR,LBR,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mali,466,ML,MLI,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mauritania,478,MR,MRT,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Niger,562,NE,NER,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Nigeria,566,NG,NGA,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Helena,654,SH,SHN,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Senegal,686,SN,SEN,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sierra Leone,694,SL,SLE,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Togo,768,TG,TGO,002,Africa,202,Sub-Saharan Africa,011,Western Africa,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Anguilla,660,AI,AIA,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Antigua and Barbuda,028,AG,ATG,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Aruba,533,AW,ABW,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bahamas,044,BS,BHS,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Barbados,052,BB,BRB,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+"Bonaire, Sint Eustatius and Saba",535,BQ,BES,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+British Virgin Islands,092,VG,VGB,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cayman Islands,136,KY,CYM,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cuba,192,CU,CUB,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Curaçao,531,CW,CUW,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Dominica,212,DM,DMA,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Dominican Republic,214,DO,DOM,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Grenada,308,GD,GRD,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guadeloupe,312,GP,GLP,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Haiti,332,HT,HTI,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Jamaica,388,JM,JAM,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Martinique,474,MQ,MTQ,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Montserrat,500,MS,MSR,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Puerto Rico,630,PR,PRI,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Barthélemy,652,BL,BLM,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Kitts and Nevis,659,KN,KNA,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Lucia,662,LC,LCA,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Martin (French Part),663,MF,MAF,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Vincent and the Grenadines,670,VC,VCT,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sint Maarten (Dutch part),534,SX,SXM,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Trinidad and Tobago,780,TT,TTO,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Turks and Caicos Islands,796,TC,TCA,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United States Virgin Islands,850,VI,VIR,019,Americas,419,Latin America and the Caribbean,029,Caribbean,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Belize,084,BZ,BLZ,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Costa Rica,188,CR,CRI,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+El Salvador,222,SV,SLV,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guatemala,320,GT,GTM,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Honduras,340,HN,HND,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mexico,484,MX,MEX,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Nicaragua,558,NI,NIC,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Panama,591,PA,PAN,019,Americas,419,Latin America and the Caribbean,013,Central America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Argentina,032,AR,ARG,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bolivia (Plurinational State of),068,BO,BOL,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bouvet Island,074,BV,BVT,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Brazil,076,BR,BRA,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Chile,152,CL,CHL,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Colombia,170,CO,COL,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Ecuador,218,EC,ECU,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Falkland Islands (Malvinas),238,FK,FLK,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+French Guiana,254,GF,GUF,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guyana,328,GY,GUY,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Paraguay,600,PY,PRY,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Peru,604,PE,PER,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+South Georgia and the South Sandwich Islands,239,GS,SGS,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Suriname,740,SR,SUR,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Uruguay,858,UY,URY,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Venezuela (Bolivarian Republic of),862,VE,VEN,019,Americas,419,Latin America and the Caribbean,005,South America,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bermuda,060,BM,BMU,019,Americas,021,Northern America,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Canada,124,CA,CAN,019,Americas,021,Northern America,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Greenland,304,GL,GRL,019,Americas,021,Northern America,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saint Pierre and Miquelon,666,PM,SPM,019,Americas,021,Northern America,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United States of America,840,US,USA,019,Americas,021,Northern America,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Antarctica,010,AQ,ATA,,,,,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Kazakhstan,398,KZ,KAZ,142,Asia,143,Central Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Kyrgyzstan,417,KG,KGZ,142,Asia,143,Central Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Tajikistan,762,TJ,TJK,142,Asia,143,Central Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Turkmenistan,795,TM,TKM,142,Asia,143,Central Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Uzbekistan,860,UZ,UZB,142,Asia,143,Central Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+China,156,CN,CHN,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+"China, Hong Kong Special Administrative Region",344,HK,HKG,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+"China, Macao Special Administrative Region",446,MO,MAC,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Democratic People's Republic of Korea,408,KP,PRK,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Japan,392,JP,JPN,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Mongolia,496,MN,MNG,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Republic of Korea,410,KR,KOR,142,Asia,030,Eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Brunei Darussalam,096,BN,BRN,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cambodia,116,KH,KHM,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Indonesia,360,ID,IDN,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Lao People's Democratic Republic,418,LA,LAO,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Malaysia,458,MY,MYS,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Myanmar,104,MM,MMR,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Philippines,608,PH,PHL,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Singapore,702,SG,SGP,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Thailand,764,TH,THA,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Timor-Leste,626,TL,TLS,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Viet Nam,704,VN,VNM,142,Asia,035,South-eastern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Afghanistan,004,AF,AFG,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bangladesh,050,BD,BGD,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bhutan,064,BT,BTN,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+India,356,IN,IND,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Iran (Islamic Republic of),364,IR,IRN,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Maldives,462,MV,MDV,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Nepal,524,NP,NPL,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Pakistan,586,PK,PAK,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sri Lanka,144,LK,LKA,142,Asia,034,Southern Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Armenia,051,AM,ARM,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Azerbaijan,031,AZ,AZE,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bahrain,048,BH,BHR,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cyprus,196,CY,CYP,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Georgia,268,GE,GEO,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Iraq,368,IQ,IRQ,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Israel,376,IL,ISR,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Jordan,400,JO,JOR,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Kuwait,414,KW,KWT,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Lebanon,422,LB,LBN,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Oman,512,OM,OMN,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Qatar,634,QA,QAT,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Saudi Arabia,682,SA,SAU,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+State of Palestine,275,PS,PSE,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Syrian Arab Republic,760,SY,SYR,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Türkiye,792,TR,TUR,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United Arab Emirates,784,AE,ARE,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Yemen,887,YE,YEM,142,Asia,145,Western Asia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Belarus,112,BY,BLR,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bulgaria,100,BG,BGR,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Czechia,203,CZ,CZE,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Hungary,348,HU,HUN,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Poland,616,PL,POL,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Republic of Moldova,498,MD,MDA,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Romania,642,RO,ROU,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Russian Federation,643,RU,RUS,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Slovakia,703,SK,SVK,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Ukraine,804,UA,UKR,150,Europe,151,Eastern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Åland Islands,248,AX,ALA,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Denmark,208,DK,DNK,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Estonia,233,EE,EST,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Faroe Islands,234,FO,FRO,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Finland,246,FI,FIN,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guernsey,831,GG,GGY,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Iceland,352,IS,ISL,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Ireland,372,IE,IRL,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Isle of Man,833,IM,IMN,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Jersey,832,JE,JEY,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Latvia,428,LV,LVA,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Lithuania,440,LT,LTU,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Norway,578,NO,NOR,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Svalbard and Jan Mayen Islands,744,SJ,SJM,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Sweden,752,SE,SWE,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United Kingdom of Great Britain and Northern Ireland,826,GB,GBR,150,Europe,154,Northern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Albania,008,AL,ALB,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Andorra,020,AD,AND,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Bosnia and Herzegovina,070,BA,BIH,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Croatia,191,HR,HRV,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Gibraltar,292,GI,GIB,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Greece,300,GR,GRC,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Holy See,336,VA,VAT,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Italy,380,IT,ITA,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Malta,470,MT,MLT,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Montenegro,499,ME,MNE,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+North Macedonia,807,MK,MKD,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Portugal,620,PT,PRT,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+San Marino,674,SM,SMR,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Serbia,688,RS,SRB,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Slovenia,705,SI,SVN,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Spain,724,ES,ESP,150,Europe,039,Southern Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Austria,040,AT,AUT,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Belgium,056,BE,BEL,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+France,250,FR,FRA,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Germany,276,DE,DEU,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Liechtenstein,438,LI,LIE,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Luxembourg,442,LU,LUX,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Monaco,492,MC,MCO,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Netherlands (Kingdom of the),528,NL,NLD,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Switzerland,756,CH,CHE,150,Europe,155,Western Europe,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Australia,036,AU,AUS,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Christmas Island,162,CX,CXR,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cocos (Keeling) Islands,166,CC,CCK,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Heard Island and McDonald Islands,334,HM,HMD,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+New Zealand,554,NZ,NZL,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Norfolk Island,574,NF,NFK,009,Oceania,053,Australia and New Zealand,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Fiji,242,FJ,FJI,009,Oceania,054,Melanesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+New Caledonia,540,NC,NCL,009,Oceania,054,Melanesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Papua New Guinea,598,PG,PNG,009,Oceania,054,Melanesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Solomon Islands,090,SB,SLB,009,Oceania,054,Melanesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Vanuatu,548,VU,VUT,009,Oceania,054,Melanesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Guam,316,GU,GUM,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Kiribati,296,KI,KIR,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Marshall Islands,584,MH,MHL,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Micronesia (Federated States of),583,FM,FSM,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Naoero,520,NR,NRU,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Northern Mariana Islands,580,MP,MNP,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Palau,585,PW,PLW,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+United States Minor Outlying Islands,581,UM,UMI,009,Oceania,057,Micronesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+American Samoa,016,AS,ASM,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Cook Islands,184,CK,COK,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+French Polynesia,258,PF,PYF,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Niue,570,NU,NIU,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Pitcairn,612,PN,PCN,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Samoa,882,WS,WSM,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Tokelau,772,TK,TKL,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Tonga,776,TO,TON,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Tuvalu,798,TV,TUV,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview
+Wallis and Futuna Islands,876,WF,WLF,009,Oceania,061,Polynesia,,,2026-11-06,https://unstats.un.org/unsd/methodology/m49/overview

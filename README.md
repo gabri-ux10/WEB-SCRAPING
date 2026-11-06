@@ -94,6 +94,8 @@ python mass_scrape.py --workers 20
 
 `mass_scrape.py` uses asynchronous concurrency, a 10-second HTTP timeout, and pagination until feeds report exhaustion or are marked failed. It writes `job_postings_full.csv` and `job_postings_full.json` in the repository root. Both files contain `company_name`, `posted_at`, `job_title`, `location`, `skills`, and `url`; `skills` is a list in JSON and semicolon-separated in CSV. Records are deduplicated by `(company_name, job_title, posted_at)`. The completion report includes date coverage and source outcomes; endpoints that still fail after three retries are recorded in `retry_queue.json`. PostgreSQL is used when available, with JSONL as a persistence fallback.
 
+`scripts/reclassify_job_skills.py` reprocesses stored postings and refreshes the consolidated exports. It applies literal skill matching, responsibility-phrase heuristics (for example, building REST APIs or writing unit tests), and conservative role-domain inference. When no specific skill is detected, inferred domains are stored as `Domain: Backend`, `Domain: DevOps/Cloud`, and similar labels in the existing `skills` field and database relation. `is_tech_role` is true only when a specific technology skill was extracted and the title is not a nontechnical role. Install the optional NLP extra and English model with `pip install -e ".[nlp]"` and `python -m spacy download en_core_web_sm`; spaCy PhraseMatcher passes then run over skill aliases and role-domain phrases.
+
 The verified snapshot generated on 2026-10-14 contains 26,148 unique export records. All 26,148 composite keys were verified in PostgreSQL (31,018 total job rows at verification time). In this run, 280 source tasks had completed in the earlier pass; the resumed Himalayas feed failed after three connection attempts and is recorded in `retry_queue.json`, so that feed was not fully exhausted.
 
 ## API
@@ -150,3 +152,16 @@ If the database is unavailable, check `docker compose ps` and run `python -m app
 - Cross-source candidate matching is conservative and has no automatic merge workflow.
 - Adzuna returns abbreviated job descriptions in its search response.
 - Future work: operations metrics, source-specific quota controls, structured compensation parsing, and durable pagination checkpoints.
+# Global CS Job Dataset v2 (staged rebuild)
+
+The v2 rebuild uses the supplied specification and v2 taxonomy, skill vocabulary, and source registry in `docs/SCRAPING_SPEC.md` and `data/reference/`. The existing `techjobs` database and prior exports are the `legacy_v1` archive; they are not loaded into v2 postings.
+
+Stage 1 initialization is idempotent:
+
+```powershell
+python scripts/init_v2_database.py
+```
+
+It creates/seeds a separate UTF8 `techjobs_v2` database and `csjobs` schema. Stage 1 has no job postings. Classifier/encoding tests run with `pytest tests/v2 -q`. The decoder preserves source bytes and charset, while the classifier uses the multilingual taxonomy and the linked skill vocabulary. Titles containing U+FFFD are rejected for quarantine rather than saved as corrupted titles. Legacy title and ATS mining creates company/board leads only.
+
+Read `docs/STAGE_1_REPORT.md`, `docs/STAGE_1_SOURCE_VERIFICATION.md`, and `docs/STAGE_1_COMPANY_LEAD_RECONCILIATION.md` for the staged rebuild, source gate, and legacy lead accounting. The official M49 reference is stored at `data/reference/un_m49_countries.csv`; its one-time fetch used a plain project User-Agent and no email address. Stage 2 is approved after the M49 and company/ATS lead checks; its pilot is Arbeitnow + Teamtailor RSS + Greenhouse because fewer than 10 Personio board leads were found. The terms decision ledger overrides the historical source registry for eligibility. Do not enable blocked sources.

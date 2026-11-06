@@ -1,0 +1,1356 @@
+{
+ "version": "2.0",
+ "date": "2026-11-05",
+ "built_from": "roadmap.sh role roadmaps (public repo folders) plus clearly flagged extension sub-domains that roadmap.sh does not cover",
+ "fallback_categories": {
+  "N": {
+   "name": "Non-Tech",
+   "sub_domain": "Not applicable",
+   "use_when": "The role is clearly outside computer science and IT (sales, HR, legal, creative, retail, healthcare, finance, operations, SEO) and no taxonomy sub-domain fits. Always set a reason_code."
+  },
+  "U": {
+   "name": "Unclassified",
+   "sub_domain": "Not applicable",
+   "use_when": "The title or text is ambiguous, unparseable, or the best taxonomy match is below the confidence threshold. Always set a reason_code. Queued for owner review; never guessed."
+  }
+ },
+ "rules": {
+  "is_tech_role": "true for every row whose category is C1-C7; false for Non-Tech and Unclassified. No exceptions and no 'strictly technical' judgement.",
+  "tier": "core | adjacent (C5 Product, Design & Management) | extension flag via source field. Use tier and source to filter analyses.",
+  "extension_toggle": "If config include_extensions=false, rows matching sub-domains with source=extension go to Unclassified (reason_code=extension_disabled) so the owner can decide later.",
+  "skills_fallback": "Skills only choose between existing sub-domains when the title is ambiguous. They never create a new category.",
+  "confidence": {
+   "HIGH": ">=0.85",
+   "MEDIUM": "0.70-0.84",
+   "LOW": "<0.70 -> category Unclassified"
+  },
+  "reason_codes": [
+   "no_title_match",
+   "ambiguous_title",
+   "conflicting_skills",
+   "low_confidence",
+   "clearly_non_cs",
+   "unparseable_text",
+   "extension_disabled",
+   "non_english_unmatched"
+  ]
+ },
+ "categories": [
+  {
+   "id": "C1",
+   "name": "Software Development",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S01",
+     "name": "Frontend Developer",
+     "roadmap": "frontend",
+     "roadmap_node_count": 113,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Frontend Developer"
+     ],
+     "title_aliases": [
+      "frontend developer",
+      "front-end engineer",
+      "ui engineer",
+      "web developer",
+      "react developer",
+      "angular developer",
+      "vue developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "frontend-entwickler",
+       "front-end-entwickler",
+       "webentwickler"
+      ],
+      "fr": [
+       "développeur front-end",
+       "développeur frontend",
+       "intégrateur web"
+      ],
+      "es": [
+       "desarrollador frontend",
+       "programador front-end"
+      ],
+      "pt": [
+       "desenvolvedor front-end",
+       "desenvolvedor frontend"
+      ],
+      "it": [
+       "sviluppatore front-end",
+       "sviluppatore frontend"
+      ],
+      "nl": [
+       "front-end ontwikkelaar",
+       "frontend developer"
+      ]
+     }
+    },
+    {
+     "id": "S02",
+     "name": "Backend Developer",
+     "roadmap": "backend",
+     "roadmap_node_count": 153,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Backend Developer"
+     ],
+     "title_aliases": [
+      "backend developer",
+      "back-end engineer",
+      "java developer",
+      "python developer",
+      "node.js developer",
+      "golang developer",
+      ".net developer",
+      "php developer",
+      "ruby developer",
+      "api developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "backend-entwickler",
+       "java-entwickler",
+       "python-entwickler"
+      ],
+      "fr": [
+       "développeur back-end",
+       "développeur backend",
+       "développeur java"
+      ],
+      "es": [
+       "desarrollador backend",
+       "programador back-end"
+      ],
+      "pt": [
+       "desenvolvedor back-end",
+       "desenvolvedor backend"
+      ],
+      "it": [
+       "sviluppatore back-end",
+       "sviluppatore backend"
+      ],
+      "nl": [
+       "backend ontwikkelaar",
+       "backend developer"
+      ]
+     }
+    },
+    {
+     "id": "S03",
+     "name": "Full Stack Developer",
+     "roadmap": "full-stack",
+     "roadmap_node_count": 37,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Full Stack Developer",
+      "Software Engineer"
+     ],
+     "title_aliases": [
+      "full stack developer",
+      "full-stack engineer",
+      "software engineer",
+      "software developer",
+      "web developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "full-stack-entwickler",
+       "fullstack-entwickler",
+       "softwareentwickler",
+       "software-entwickler"
+      ],
+      "fr": [
+       "développeur full stack",
+       "développeur fullstack",
+       "ingénieur logiciel",
+       "ingénieur développement logiciel"
+      ],
+      "es": [
+       "desarrollador full stack",
+       "ingeniero de software"
+      ],
+      "pt": [
+       "desenvolvedor full stack",
+       "engenheiro de software"
+      ],
+      "it": [
+       "sviluppatore full stack",
+       "ingegnere del software"
+      ],
+      "nl": [
+       "full stack ontwikkelaar",
+       "softwareontwikkelaar"
+      ]
+     }
+    },
+    {
+     "id": "S04",
+     "name": "Android Developer",
+     "roadmap": "android",
+     "roadmap_node_count": 112,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Android Developer"
+     ],
+     "title_aliases": [
+      "android developer",
+      "android engineer",
+      "kotlin developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "android-entwickler",
+       "mobile entwickler",
+       "app-entwickler"
+      ],
+      "fr": [
+       "développeur android",
+       "développeur mobile"
+      ],
+      "es": [
+       "desarrollador android",
+       "desarrollador móvil"
+      ],
+      "pt": [
+       "desenvolvedor android",
+       "desenvolvedor mobile"
+      ],
+      "it": [
+       "sviluppatore android",
+       "sviluppatore mobile"
+      ],
+      "nl": [
+       "android ontwikkelaar"
+      ]
+     }
+    },
+    {
+     "id": "S05",
+     "name": "iOS Developer",
+     "roadmap": "ios",
+     "roadmap_node_count": 163,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "iOS Developer"
+     ],
+     "title_aliases": [
+      "ios developer",
+      "ios engineer",
+      "swift developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "ios-entwickler"
+      ],
+      "fr": [
+       "développeur ios"
+      ],
+      "es": [
+       "desarrollador ios"
+      ],
+      "pt": [
+       "desenvolvedor ios"
+      ],
+      "it": [
+       "sviluppatore ios"
+      ],
+      "nl": [
+       "ios ontwikkelaar"
+      ]
+     }
+    },
+    {
+     "id": "S06",
+     "name": "Cross-platform Mobile Developer",
+     "roadmap": "flutter",
+     "roadmap_node_count": 107,
+     "tier": "core",
+     "source": "roadmap.sh skill roadmaps (Flutter, React Native)",
+     "normalized_roles": [
+      "Cross-platform Mobile Developer"
+     ],
+     "title_aliases": [
+      "flutter developer",
+      "react native developer",
+      "mobile developer",
+      "mobile engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S07",
+     "name": "Game Developer",
+     "roadmap": "game-developer",
+     "roadmap_node_count": 143,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Game Developer"
+     ],
+     "title_aliases": [
+      "game developer",
+      "game programmer",
+      "unity developer",
+      "unreal engine developer",
+      "gameplay engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S08",
+     "name": "Server-side Game Developer",
+     "roadmap": "server-side-game-developer",
+     "roadmap_node_count": 151,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Server-side Game Developer"
+     ],
+     "title_aliases": [
+      "game server engineer",
+      "backend game developer",
+      "multiplayer engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S09",
+     "name": "Blockchain Developer",
+     "roadmap": "blockchain",
+     "roadmap_node_count": 124,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Blockchain Developer"
+     ],
+     "title_aliases": [
+      "blockchain developer",
+      "smart contract engineer",
+      "solidity developer",
+      "web3 developer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S10",
+     "name": "Software Architect",
+     "roadmap": "software-architect",
+     "roadmap_node_count": 112,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Software Architect"
+     ],
+     "title_aliases": [
+      "software architect",
+      "solution architect",
+      "technical architect",
+      "principal engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S11",
+     "name": "QA / Test Engineer",
+     "roadmap": "qa",
+     "roadmap_node_count": 139,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "QA / Test Engineer"
+     ],
+     "title_aliases": [
+      "qa engineer",
+      "test engineer",
+      "sdet",
+      "software engineer in test",
+      "test automation engineer",
+      "quality assurance engineer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "qualitätssicherung",
+       "testingenieur",
+       "softwaretester",
+       "qa-ingenieur"
+      ],
+      "fr": [
+       "ingénieur qualité logiciel",
+       "testeur logiciel",
+       "ingénieur test"
+      ],
+      "es": [
+       "ingeniero qa",
+       "analista de pruebas",
+       "tester de software"
+      ],
+      "pt": [
+       "analista de testes",
+       "engenheiro de qualidade de software"
+      ],
+      "it": [
+       "tester software",
+       "ingegnere qa"
+      ],
+      "nl": [
+       "software tester",
+       "testengineer"
+      ]
+     }
+    },
+    {
+     "id": "S12",
+     "name": "Forward Deployed Engineer",
+     "roadmap": "forward-deployed-engineer",
+     "roadmap_node_count": 97,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Forward Deployed Engineer"
+     ],
+     "title_aliases": [
+      "forward deployed engineer",
+      "solutions engineer",
+      "customer engineer",
+      "implementation engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S13",
+     "name": "AR/VR Developer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "AR/VR Developer"
+     ],
+     "title_aliases": [
+      "ar developer",
+      "vr developer",
+      "xr engineer",
+      "metaverse developer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S14",
+     "name": "ERP / CRM Developer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "ERP / CRM Developer"
+     ],
+     "title_aliases": [
+      "sap developer",
+      "abap developer",
+      "salesforce developer",
+      "dynamics 365 developer",
+      "odoo developer",
+      "servicenow developer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S15",
+     "name": "Systems / Low-level Engineer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Systems / Low-level Engineer"
+     ],
+     "title_aliases": [
+      "systems programmer",
+      "c++ developer",
+      "c developer",
+      "kernel engineer",
+      "compiler engineer",
+      "rust developer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S16",
+     "name": "Mainframe / Legacy Developer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Mainframe / Legacy Developer"
+     ],
+     "title_aliases": [
+      "cobol developer",
+      "mainframe developer",
+      "as400 developer"
+     ],
+     "title_aliases_i18n": {}
+    }
+   ]
+  },
+  {
+   "id": "C2",
+   "name": "Data & AI",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S20",
+     "name": "Data Analyst",
+     "roadmap": "data-analyst",
+     "roadmap_node_count": 100,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Data Analyst"
+     ],
+     "title_aliases": [
+      "data analyst",
+      "reporting analyst",
+      "analytics analyst",
+      "product analyst"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "datenanalyst",
+       "dateanalyst"
+      ],
+      "fr": [
+       "analyste de données",
+       "data analyste"
+      ],
+      "es": [
+       "analista de datos"
+      ],
+      "pt": [
+       "analista de dados"
+      ],
+      "it": [
+       "analista dati"
+      ],
+      "nl": [
+       "data-analist"
+      ]
+     }
+    },
+    {
+     "id": "S21",
+     "name": "BI Analyst",
+     "roadmap": "bi-analyst",
+     "roadmap_node_count": 198,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "BI Analyst"
+     ],
+     "title_aliases": [
+      "bi analyst",
+      "business intelligence analyst",
+      "power bi developer",
+      "tableau developer",
+      "bi developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "bi-analyst",
+       "business-intelligence-analyst"
+      ],
+      "fr": [
+       "analyste bi"
+      ],
+      "es": [
+       "analista de bi"
+      ],
+      "pt": [
+       "analista de bi"
+      ],
+      "it": [
+       "analista bi"
+      ],
+      "nl": [
+       "bi-analist"
+      ]
+     }
+    },
+    {
+     "id": "S22",
+     "name": "Data Engineer",
+     "roadmap": "data-engineer",
+     "roadmap_node_count": 191,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Data Engineer"
+     ],
+     "title_aliases": [
+      "data engineer",
+      "etl developer",
+      "big data engineer",
+      "analytics engineer",
+      "data platform engineer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "dateningenieur",
+       "etl-entwickler"
+      ],
+      "fr": [
+       "ingénieur data",
+       "ingénieur données"
+      ],
+      "es": [
+       "ingeniero de datos"
+      ],
+      "pt": [
+       "engenheiro de dados"
+      ],
+      "it": [
+       "ingegnere dei dati"
+      ],
+      "nl": [
+       "data-engineer"
+      ]
+     }
+    },
+    {
+     "id": "S23",
+     "name": "Data Scientist",
+     "roadmap": "ai-data-scientist",
+     "roadmap_node_count": 9,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Data Scientist"
+     ],
+     "title_aliases": [
+      "data scientist",
+      "applied scientist",
+      "research scientist",
+      "statistician"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "datenwissenschaftler"
+      ],
+      "fr": [
+       "scientifique des données"
+      ],
+      "es": [
+       "científico de datos"
+      ],
+      "pt": [
+       "cientista de dados"
+      ],
+      "it": [
+       "scienziato dei dati"
+      ],
+      "nl": [
+       "data scientist"
+      ]
+     }
+    },
+    {
+     "id": "S24",
+     "name": "Machine Learning Engineer",
+     "roadmap": "machine-learning",
+     "roadmap_node_count": 147,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Machine Learning Engineer"
+     ],
+     "title_aliases": [
+      "machine learning engineer",
+      "ml engineer",
+      "deep learning engineer",
+      "computer vision engineer",
+      "nlp engineer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "ki-ingenieur",
+       "machine-learning-ingenieur",
+       "ki-entwickler"
+      ],
+      "fr": [
+       "ingénieur machine learning",
+       "ingénieur ia",
+       "ingénieur apprentissage automatique"
+      ],
+      "es": [
+       "ingeniero de machine learning",
+       "ingeniero de ia"
+      ],
+      "pt": [
+       "engenheiro de machine learning",
+       "engenheiro de ia"
+      ],
+      "it": [
+       "ingegnere machine learning",
+       "ingegnere ia"
+      ],
+      "nl": [
+       "machine learning engineer",
+       "ai-engineer"
+      ]
+     }
+    },
+    {
+     "id": "S25",
+     "name": "MLOps Engineer",
+     "roadmap": "mlops",
+     "roadmap_node_count": 64,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "MLOps Engineer"
+     ],
+     "title_aliases": [
+      "mlops engineer",
+      "ml platform engineer",
+      "machine learning infrastructure engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S26",
+     "name": "AI Engineer",
+     "roadmap": "ai-engineer",
+     "roadmap_node_count": 192,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "AI Engineer"
+     ],
+     "title_aliases": [
+      "ai engineer",
+      "llm engineer",
+      "generative ai engineer",
+      "prompt engineer",
+      "ai developer",
+      "ai agent developer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S27",
+     "name": "Inference Engineer",
+     "roadmap": "inference-engineering",
+     "roadmap_node_count": 141,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Inference Engineer"
+     ],
+     "title_aliases": [
+      "inference engineer",
+      "model serving engineer",
+      "gpu performance engineer",
+      "ml systems engineer"
+     ],
+     "title_aliases_i18n": {}
+    }
+   ]
+  },
+  {
+   "id": "C3",
+   "name": "Cloud, DevOps & Infrastructure",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S30",
+     "name": "DevOps Engineer",
+     "roadmap": "devops",
+     "roadmap_node_count": 138,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "DevOps Engineer"
+     ],
+     "title_aliases": [
+      "devops engineer",
+      "build and release engineer",
+      "ci/cd engineer",
+      "infrastructure engineer",
+      "automation engineer",
+      "platform engineer",
+      "build engineer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "devops-ingenieur",
+       "devops engineer",
+       "cloud-ingenieur"
+      ],
+      "fr": [
+       "ingénieur devops",
+       "ingénieur cloud"
+      ],
+      "es": [
+       "ingeniero devops",
+       "ingeniero cloud"
+      ],
+      "pt": [
+       "engenheiro devops",
+       "engenheiro cloud"
+      ],
+      "it": [
+       "ingegnere devops"
+      ],
+      "nl": [
+       "devops-engineer"
+      ]
+     }
+    },
+    {
+     "id": "S31",
+     "name": "Cloud Engineer / Architect",
+     "roadmap": "cloud-computing",
+     "roadmap_node_count": 119,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Cloud Engineer / Architect"
+     ],
+     "title_aliases": [
+      "cloud engineer",
+      "cloud architect",
+      "aws engineer",
+      "azure engineer",
+      "gcp engineer",
+      "cloud solutions architect"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S32",
+     "name": "Site Reliability Engineer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Site Reliability Engineer"
+     ],
+     "title_aliases": [
+      "site reliability engineer",
+      "sre",
+      "production engineer",
+      "reliability engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S33",
+     "name": "Network Engineer",
+     "roadmap": "network-engineer",
+     "roadmap_node_count": 198,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Network Engineer"
+     ],
+     "title_aliases": [
+      "network engineer",
+      "network administrator",
+      "network architect",
+      "noc engineer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "netzwerkadministrator",
+       "netzwerkingenieur"
+      ],
+      "fr": [
+       "administrateur réseau",
+       "ingénieur réseau"
+      ],
+      "es": [
+       "administrador de redes",
+       "ingeniero de redes"
+      ],
+      "pt": [
+       "administrador de redes",
+       "engenheiro de redes"
+      ],
+      "it": [
+       "ingegnere di rete"
+      ],
+      "nl": [
+       "netwerkbeheerder",
+       "netwerkengineer"
+      ]
+     }
+    },
+    {
+     "id": "S34",
+     "name": "Database Administrator",
+     "roadmap": "postgresql-dba",
+     "roadmap_node_count": 167,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Database Administrator"
+     ],
+     "title_aliases": [
+      "database administrator",
+      "dba",
+      "postgresql dba",
+      "database engineer",
+      "sql dba"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S35",
+     "name": "Systems Administrator",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Systems Administrator"
+     ],
+     "title_aliases": [
+      "systems administrator",
+      "sysadmin",
+      "linux administrator",
+      "windows administrator",
+      "it administrator",
+      "infrastructure administrator"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "systemadministrator",
+       "it-administrator",
+       "linux-administrator"
+      ],
+      "fr": [
+       "administrateur systèmes",
+       "administrateur système et réseaux"
+      ],
+      "es": [
+       "administrador de sistemas"
+      ],
+      "pt": [
+       "administrador de sistemas"
+      ],
+      "it": [
+       "amministratore di sistema",
+       "sistemista"
+      ],
+      "nl": [
+       "systeembeheerder"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "C4",
+   "name": "Cybersecurity",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S40",
+     "name": "Cyber Security Specialist",
+     "roadmap": "cyber-security",
+     "roadmap_node_count": 289,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Cyber Security Specialist"
+     ],
+     "title_aliases": [
+      "cyber security analyst",
+      "information security analyst",
+      "security engineer",
+      "security architect",
+      "threat analyst",
+      "grc analyst",
+      "information security officer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "it-sicherheit",
+       "it-security",
+       "informationssicherheitsbeauftragter",
+       "cybersecurity-spezialist"
+      ],
+      "fr": [
+       "ingénieur cybersécurité",
+       "analyste sécurité",
+       "consultant cybersécurité"
+      ],
+      "es": [
+       "analista de ciberseguridad",
+       "especialista en ciberseguridad"
+      ],
+      "pt": [
+       "analista de segurança da informação",
+       "especialista em cibersegurança"
+      ],
+      "it": [
+       "specialista cybersecurity",
+       "analista sicurezza informatica"
+      ],
+      "nl": [
+       "security engineer",
+       "cybersecurity specialist"
+      ]
+     }
+    },
+    {
+     "id": "S41",
+     "name": "DevSecOps Engineer",
+     "roadmap": "devsecops",
+     "roadmap_node_count": 93,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "DevSecOps Engineer"
+     ],
+     "title_aliases": [
+      "devsecops engineer",
+      "security automation engineer",
+      "cloud security engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S42",
+     "name": "AI Red Teamer",
+     "roadmap": "ai-red-teaming",
+     "roadmap_node_count": 64,
+     "tier": "core",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "AI Red Teamer"
+     ],
+     "title_aliases": [
+      "ai red team",
+      "ai security researcher",
+      "adversarial ml engineer",
+      "ai safety engineer"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S43",
+     "name": "SOC Analyst",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "SOC Analyst"
+     ],
+     "title_aliases": [
+      "soc analyst",
+      "security operations analyst",
+      "incident response analyst",
+      "blue team analyst"
+     ],
+     "title_aliases_i18n": {
+      "fr": [
+       "analyste soc"
+      ]
+     }
+    },
+    {
+     "id": "S44",
+     "name": "Penetration Tester",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Penetration Tester"
+     ],
+     "title_aliases": [
+      "penetration tester",
+      "pentester",
+      "red team operator",
+      "ethical hacker",
+      "offensive security engineer"
+     ],
+     "title_aliases_i18n": {}
+    }
+   ]
+  },
+  {
+   "id": "C5",
+   "name": "Product, Design & Management",
+   "tier": "adjacent",
+   "subdomains": [
+    {
+     "id": "S50",
+     "name": "Product Manager",
+     "roadmap": "product-manager",
+     "roadmap_node_count": 169,
+     "tier": "adjacent",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Product Manager"
+     ],
+     "title_aliases": [
+      "product manager",
+      "technical product manager",
+      "product owner"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "produktmanager",
+       "product owner"
+      ],
+      "fr": [
+       "chef de produit",
+       "product manager"
+      ],
+      "es": [
+       "gerente de producto",
+       "product manager"
+      ],
+      "pt": [
+       "gerente de produto"
+      ],
+      "it": [
+       "product manager"
+      ],
+      "nl": [
+       "productmanager"
+      ]
+     }
+    },
+    {
+     "id": "S51",
+     "name": "UX / Product Designer",
+     "roadmap": "ux-design",
+     "roadmap_node_count": 94,
+     "tier": "adjacent",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "UX / Product Designer"
+     ],
+     "title_aliases": [
+      "ux designer",
+      "ui/ux designer",
+      "product designer",
+      "ux researcher"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "ux-designer",
+       "ui/ux-designer"
+      ],
+      "fr": [
+       "designer ux",
+       "concepteur ux"
+      ],
+      "es": [
+       "diseñador ux",
+       "diseñador ui/ux"
+      ],
+      "pt": [
+       "designer ux"
+      ],
+      "it": [
+       "ux designer"
+      ],
+      "nl": [
+       "ux-designer"
+      ]
+     }
+    },
+    {
+     "id": "S52",
+     "name": "Engineering Manager",
+     "roadmap": "engineering-manager",
+     "roadmap_node_count": 131,
+     "tier": "adjacent",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Engineering Manager"
+     ],
+     "title_aliases": [
+      "engineering manager",
+      "head of engineering",
+      "vp engineering",
+      "tech lead manager",
+      "cto"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S53",
+     "name": "Developer Relations",
+     "roadmap": "devrel",
+     "roadmap_node_count": 137,
+     "tier": "adjacent",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Developer Relations"
+     ],
+     "title_aliases": [
+      "developer advocate",
+      "developer relations engineer",
+      "devrel",
+      "developer evangelist"
+     ],
+     "title_aliases_i18n": {}
+    },
+    {
+     "id": "S54",
+     "name": "Technical Writer",
+     "roadmap": "technical-writer",
+     "roadmap_node_count": 84,
+     "tier": "adjacent",
+     "source": "roadmap.sh",
+     "normalized_roles": [
+      "Technical Writer"
+     ],
+     "title_aliases": [
+      "technical writer",
+      "documentation engineer",
+      "api documentation writer"
+     ],
+     "title_aliases_i18n": {}
+    }
+   ]
+  },
+  {
+   "id": "C6",
+   "name": "IT Operations & Support",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S60",
+     "name": "IT Support / Help Desk",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "IT Support / Help Desk"
+     ],
+     "title_aliases": [
+      "it support specialist",
+      "help desk technician",
+      "service desk analyst",
+      "desktop support",
+      "technical support engineer",
+      "it technician"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "it-support",
+       "it-supporter",
+       "helpdesk",
+       "systemintegrator"
+      ],
+      "fr": [
+       "technicien support informatique",
+       "technicien helpdesk",
+       "technicien informatique"
+      ],
+      "es": [
+       "técnico de soporte informático",
+       "soporte técnico it"
+      ],
+      "pt": [
+       "técnico de suporte de ti"
+      ],
+      "it": [
+       "tecnico informatico",
+       "supporto it"
+      ],
+      "nl": [
+       "helpdeskmedewerker",
+       "servicedesk medewerker",
+       "it-support medewerker"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "C7",
+   "name": "Embedded, Hardware & Robotics",
+   "tier": "core",
+   "subdomains": [
+    {
+     "id": "S70",
+     "name": "Embedded / Firmware Engineer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Embedded / Firmware Engineer"
+     ],
+     "title_aliases": [
+      "embedded software engineer",
+      "firmware engineer",
+      "embedded systems engineer",
+      "iot engineer",
+      "rtos developer"
+     ],
+     "title_aliases_i18n": {
+      "de": [
+       "embedded-entwickler",
+       "embedded software ingenieur",
+       "firmware-entwickler"
+      ],
+      "fr": [
+       "ingénieur systèmes embarqués",
+       "développeur embarqué"
+      ],
+      "es": [
+       "ingeniero de sistemas embebidos"
+      ],
+      "pt": [
+       "engenheiro de sistemas embarcados"
+      ],
+      "it": [
+       "ingegnere software embedded",
+       "sviluppatore firmware"
+      ],
+      "nl": [
+       "embedded software engineer"
+      ]
+     }
+    },
+    {
+     "id": "S71",
+     "name": "Robotics Software Engineer",
+     "roadmap": null,
+     "roadmap_node_count": 0,
+     "tier": "core",
+     "source": "extension",
+     "normalized_roles": [
+      "Robotics Software Engineer"
+     ],
+     "title_aliases": [
+      "robotics software engineer",
+      "ros developer",
+      "autonomy engineer",
+      "perception engineer"
+     ],
+     "title_aliases_i18n": {}
+    }
+   ]
+  }
+ ]
+}
