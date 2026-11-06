@@ -26,6 +26,23 @@ JUNK = re.compile(
     r"^(?:unknown|confidential|undisclosed|n/?a|none|not provided|anonymous|stealth(?: startup)?|various|multiple companies)$",
     re.I,
 )
+LONG_HEX = re.compile(r"\b[0-9a-f]{10,}\b", re.I)
+UUID_LIKE = re.compile(r"^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$", re.I)
+
+
+def is_placeholder_name(value: str) -> bool:
+    """Flag exact placeholders and obvious machine-generated identifiers for review."""
+    name = value.strip()
+    alphanumeric = re.sub(r"[^A-Za-z0-9]", "", name)
+    letters = re.sub(r"[^A-Za-z]", "", name)
+    return bool(
+        not name
+        or JUNK.fullmatch(name)
+        or LONG_HEX.search(name)
+        or UUID_LIKE.fullmatch(name)
+        or re.fullmatch(r"\d{8,}", name)
+        or (len(alphanumeric) >= 12 and len(letters) / len(alphanumeric) < 0.35)
+    )
 
 
 def read_directory() -> tuple[list[tuple[str, int]], int]:
@@ -87,8 +104,9 @@ async def main() -> None:
     directory_exact = set(directory_names)
     legacy_exact = set(legacy_names)
     collisions = {key: names for key, names in directory_groups.items() if len(names) > 1}
-    junk_directory = sorted({name for name in directory_names if not normalize_company_name(name) or JUNK.fullmatch(name.strip())}, key=str.casefold)
-    junk_legacy = sorted({name for name in legacy_names if not normalize_company_name(name) or JUNK.fullmatch(name.strip())}, key=str.casefold)
+    old_screen_directory = sorted({name for name in directory_names if JUNK.fullmatch(name.strip())}, key=str.casefold)
+    junk_directory = sorted({name for name in directory_names if is_placeholder_name(name)}, key=str.casefold)
+    junk_legacy = sorted({name for name in legacy_names if is_placeholder_name(name)}, key=str.casefold)
     MERGES.parent.mkdir(parents=True, exist_ok=True)
     with MERGES.open("w", encoding="utf-8-sig", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=["normalized_key", "variant_count", "display_names"])
@@ -107,7 +125,7 @@ async def main() -> None:
         f"- DOCX directory rows: **{len(directory)}**; stated legacy postings: **{stated_postings:,}**.",
         f"- Directory exact distinct display names: **{len(directory_exact):,}**; directory distinct normalized keys: **{len(directory_groups):,}**.",
         f"- Directory rows with empty normalized keys: **{sum(not normalize_company_name(name) for name in directory_names)}**.",
-        f"- Directory names matching the conservative placeholder screen: **{len(junk_directory)}**. The screen flags only exact placeholders (Unknown, Confidential, Undisclosed, N/A, None, Not provided, Anonymous, Stealth, Various, Multiple companies); these are not automatically dropped.",
+        f"- Directory names matching the old exact-placeholder screen: **{len(old_screen_directory)}**; the broadened review screen flags **{len(junk_directory)}** (long hex/UUID-like IDs, long digit-only strings, mostly non-letter names, plus exact placeholders). Flags are review candidates and are not automatically dropped.",
         f"- Directory normalization merge clusters: **{len(collisions)}** clusters covering **{sum(len(names) for names in collisions.values())}** distinct display names; the complete list is `{MERGES.relative_to(ROOT).as_posix()}`.",
         f"- Legacy jobs table distinct nonblank company names: **{len(legacy_exact):,}**; normalized company keys: **{len(legacy_groups):,}**; blank names: **{sum(not str(row.name).strip() for row in db_rows)}**.",
         f"- Legacy normalized-key overlap with the directory: **{len(set(legacy_groups) & set(directory_groups)):,}**; directory-only keys: **{len(set(directory_groups) - set(legacy_groups)):,}**; legacy-only keys: **{len(set(legacy_groups) - set(directory_groups)):,}**.",

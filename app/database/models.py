@@ -109,6 +109,7 @@ class Job(Base):
     source_url: Mapped[str | None] = mapped_column(String(2048))
     primary_category: Mapped[str | None] = mapped_column(String(120))
     secondary_categories: Mapped[list] = mapped_column(JSON_DOCUMENT, default=list)
+    is_tech_role: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
     source_metadata: Mapped[dict | list | None] = mapped_column(JSON_DOCUMENT)
     first_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

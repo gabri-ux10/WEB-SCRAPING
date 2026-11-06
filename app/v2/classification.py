@@ -54,7 +54,7 @@ _AMBIGUOUS_SKILLS = {"go", "r", "c", "swift", "rust", "spring", "express", "flut
 @dataclass(frozen=True)
 class Classification:
     clean_title: str
-    clean_title_en: str
+    clean_title_en: str | None
     title_language: str
     translation_method: str
     normalized_role: str
@@ -126,6 +126,10 @@ def _cached_reference(taxonomy_path: str, vocabulary_path: str):
 def extract_skills(text: str, terms: list[SkillTerm] | None = None) -> list[SkillTerm]:
     terms = terms if terms is not None else load_skills()
     haystack = f" {_normalized(text)} "
+    # Most vocabulary terms cannot match a given description. Use its token set
+    # to skip regex searches for absent first tokens while preserving the full
+    # boundary-aware pattern check for possible matches.
+    present_tokens = set(re.findall(r"[\w+#.-]+", haystack, flags=re.I))
     found = []
     for term in terms:
         label = term.label.strip()
@@ -133,6 +137,8 @@ def extract_skills(text: str, terms: list[SkillTerm] | None = None) -> list[Skil
         if low in _GENERIC_SKILLS or len(low) < 2:
             continue
         aliases = {low, *[key for key, value in _SYNONYMS.items() if value == low]}
+        if not any(alias.split()[0] in present_tokens for alias in aliases):
+            continue
         if low in _AMBIGUOUS_SKILLS and not re.search(
             r"\b(programming|developer|engineer|code|framework|database|language)\b", haystack, re.I
         ):
@@ -173,10 +179,12 @@ def classify(
 
     # A clear title match cannot be overridden by skills; only scan the full vocabulary
     # when the title needs a tie-break or fallback decision.
-    matched_skills = [] if decision_id else extract_skills(f"{title} {description}", skill_terms)
+    matched_skills = [] if decision_id or skills is not None else extract_skills(f"{title} {description}", skill_terms)
     skill_labels = list(dict.fromkeys((skills or []) + [term.label for term in matched_skills]))
+    provided_labels = set(skills or [])
+    vote_terms = matched_skills if skills is None else [term for term in skill_terms if term.label in provided_labels]
     votes: dict[str, int] = {}
-    for term in matched_skills:
+    for term in vote_terms:
         for subdomain_id in term.subdomain_ids:
             votes[subdomain_id] = votes.get(subdomain_id, 0) + 1
     confidence = 0.92

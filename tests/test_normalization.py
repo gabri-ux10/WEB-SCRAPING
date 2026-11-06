@@ -1,5 +1,10 @@
 from app.classification.classifier import classify
-from app.classification.skills import extract_skills
+from app.classification.skills import (
+    extract_skills,
+    infer_contextual_skills,
+    infer_domains,
+    is_tech_role,
+)
 from app.normalization.locations import normalize_location
 from app.normalization.salaries import parse_salary
 
@@ -32,3 +37,20 @@ def test_classification_examples():
 def test_skill_extraction_requires_text_match():
     assert extract_skills("Build services with Python and PostgreSQL") == ["Python", "PostgreSQL"]
     assert extract_skills("No technologies mentioned") == []
+
+
+def test_domain_fallback_uses_role_and_responsibility_context():
+    assert "Backend" in infer_domains("Backend Engineer", "Build reliable services")
+    assert "DevOps/Cloud" in infer_domains("Platform Engineer", "Own deployment pipelines and production operations")
+    assert infer_domains("Finance Manager", "Prepare monthly reconciliations") == []
+
+
+def test_contextual_skill_extraction_maps_explicit_action_phrases():
+    assert infer_contextual_skills("Building REST APIs and writing unit tests") == ["REST APIs", "Unit Testing"]
+
+
+def test_tech_role_flag_excludes_nontechnical_titles_and_domain_only_fallbacks():
+    assert is_tech_role("Backend Engineer", ["Python"])
+    assert not is_tech_role("Finance Systems Analyst", ["Python"])
+    assert not is_tech_role("Backend Engineer", ["Domain: Backend"])
+    assert not is_tech_role("Backend Engineer", [])

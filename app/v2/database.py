@@ -124,7 +124,7 @@ class Posting(V2Base):
     company_id: Mapped[int | None] = mapped_column(ForeignKey(f"{SCHEMA}.companies.id"))
     raw_title: Mapped[str] = mapped_column(Text, nullable=False)
     clean_title: Mapped[str] = mapped_column(Text, nullable=False)
-    clean_title_en: Mapped[str] = mapped_column(Text, nullable=False)
+    clean_title_en: Mapped[str | None] = mapped_column(Text, nullable=True)
     title_language: Mapped[str] = mapped_column(String(8), nullable=False)
     description: Mapped[str | None] = mapped_column(Text)
     description_language: Mapped[str | None] = mapped_column(String(8))
@@ -173,6 +173,20 @@ class RawPayload(V2Base):
     source_charset: Mapped[str | None] = mapped_column(String(80))
     content_type: Mapped[str | None] = mapped_column(String(255))
     sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(UTC))
+
+
+class QuarantinedRecord(V2Base):
+    __tablename__ = "quarantined_records"
+    __table_args__ = {"schema": SCHEMA}
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    source_id: Mapped[str] = mapped_column(ForeignKey(f"{SCHEMA}.sources.id"), nullable=False)
+    source_job_id: Mapped[str | None] = mapped_column(String(512))
+    raw_bytes: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    source_charset: Mapped[str | None] = mapped_column(String(80))
+    content_type: Mapped[str | None] = mapped_column(String(255))
+    source_url: Mapped[str | None] = mapped_column(Text)
+    reason: Mapped[str] = mapped_column(String(128), nullable=False)
     captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, default=lambda: datetime.now(UTC))
 
 

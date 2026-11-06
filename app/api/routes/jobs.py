@@ -131,6 +131,7 @@ def serialize(j):
         "source_url": j.source_url,
         "primary_category": j.primary_category,
         "secondary_categories": j.secondary_categories,
+        "is_tech_role": j.is_tech_role,
         "source_metadata": j.source_metadata,
         "skills": [s.name for s in j.skills],
         "first_seen_at": j.first_seen_at,

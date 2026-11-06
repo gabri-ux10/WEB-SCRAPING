@@ -11,7 +11,6 @@ class Settings(BaseSettings):
     adzuna_app_id: str | None = None
     adzuna_app_key: str | None = None
     usajobs_api_key: str | None = None
-    usajobs_email: str | None = None
     jooble_api_key: str | None = None
     request_timeout: float = 30
     max_retries: int = 3

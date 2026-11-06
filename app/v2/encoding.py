@@ -105,7 +105,13 @@ def decode_response(
             charset = match.encoding
             text = str(match)
     text = _clean_unicode(text)
-    text, repaired = _repair_mojibake(text)
+    # Running text repair over serialized JSON can change punctuation inside
+    # string values and make the document invalid. Repair JSON fields after
+    # parsing instead of rewriting its syntax.
+    if json_media:
+        repaired = False
+    else:
+        text, repaired = _repair_mojibake(text)
     if repaired:
         log.info("ftfy repaired mojibake in a captured response")
     return DecodedPayload(text, charset, raw, repaired)

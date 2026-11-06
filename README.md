@@ -96,6 +96,10 @@ python mass_scrape.py --workers 20
 
 `scripts/reclassify_job_skills.py` reprocesses stored postings and refreshes the consolidated exports. It applies literal skill matching, responsibility-phrase heuristics (for example, building REST APIs or writing unit tests), and conservative role-domain inference. When no specific skill is detected, inferred domains are stored as `Domain: Backend`, `Domain: DevOps/Cloud`, and similar labels in the existing `skills` field and database relation. `is_tech_role` is true only when a specific technology skill was extracted and the title is not a nontechnical role. Install the optional NLP extra and English model with `pip install -e ".[nlp]"` and `python -m spacy download en_core_web_sm`; spaCy PhraseMatcher passes then run over skill aliases and role-domain phrases.
 
+## Stage 2 pilot attribution and run conditions
+
+The Europe pilot sources are **Arbeitnow**, **Teamtailor**, and **Greenhouse**. Name the source in research reports and retain its listing URL for attribution. Use the feeds only for non-commercial academic research, do not redistribute raw posting text, and send at most one request per host per second. The local pilot runner performs a network preflight before scraping and stops if any host check fails. See `data/reference/source_terms_decisions_v2.csv` for the controlling source decisions and conditions. Workable's evidence URL needs confirmation before it can be enabled. Jooble is not viable for this project because each regional key has a 500-call lifetime limit.
+
 The verified snapshot generated on 2026-10-14 contains 26,148 unique export records. All 26,148 composite keys were verified in PostgreSQL (31,018 total job rows at verification time). In this run, 280 source tasks had completed in the earlier pass; the resumed Himalayas feed failed after three connection attempts and is recorded in `retry_queue.json`, so that feed was not fully exhausted.
 
 ## API

@@ -1,4 +1,5 @@
 .env
+.env.key-update.tmp
 .venv/
 *.egg-info/
 __pycache__/
@@ -12,3 +13,4 @@ data/logs/**
 !data/exports/.gitkeep
 !data/logs/.gitkeep
 *.db
+models/

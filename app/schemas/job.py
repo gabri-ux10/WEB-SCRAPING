@@ -31,6 +31,7 @@ class NormalizedJob(BaseModel):
     source_url: str | None = None
     primary_category: str | None = None
     secondary_categories: list[str] = []
+    is_tech_role: bool = False
     skills: list[str] = []
     source_metadata: dict | list | None = None
     raw_data_path: str | None = None
@@ -50,6 +51,7 @@ class JobRead(BaseModel):
     country_code: str | None = None
     primary_category: str | None
     secondary_categories: list[str]
+    is_tech_role: bool
     skills: list
     apply_url: str | None
     source_url: str | None

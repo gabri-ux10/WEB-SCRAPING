@@ -3,7 +3,12 @@ from pathlib import Path
 import yaml
 
 from app.classification.categories import CATEGORIES
-from app.classification.skills import extract_skills
+from app.classification.skills import (
+    extract_skills,
+    infer_contextual_skills,
+    infer_domains,
+    is_tech_role,
+)
 
 
 def _categories():
@@ -38,5 +43,9 @@ def classify(title: str | None, description: str | None = None):
 
 def enrich_classification(job):
     job.primary_category, job.secondary_categories = classify(job.title, job.description)
-    job.skills = extract_skills(f"{job.title or ''} {job.description or ''}")
+    text = f"{job.title or ''} {job.description or ''}"
+    job.skills = list(dict.fromkeys(extract_skills(text) + infer_contextual_skills(text)))
+    if not job.skills:
+        job.skills = [f"Domain: {domain}" for domain in infer_domains(job.title, job.description)]
+    job.is_tech_role = is_tech_role(job.title, job.skills)
     return job
